@@ -1,0 +1,14 @@
+<section id="formacao" class="block" data-stop data-section>
+  <div class="block__head">
+    <span class="node" aria-hidden="true"></span>
+    <h2 class="block__title" data-decode>{{ ui.title_education }}</h2>
+  </div>
+  <ul class="education">
+    {% for item in content.education %}
+    <li class="education__item" data-part>
+      <h3 class="education__course">{{ item.course }}</h3>
+      <p class="education__where">{{ item.institution }}{% if item.period %}<span class="education__period">, {{ item.period }}</span>{% endif %}</p>
+    </li>
+    {% endfor %}
+  </ul>
+</section>

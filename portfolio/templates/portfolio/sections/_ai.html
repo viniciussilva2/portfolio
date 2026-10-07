@@ -1,0 +1,21 @@
+{% if content.ai %}
+<section id="ia" class="block" data-stop data-section>
+  <div class="block__head">
+    <span class="node" aria-hidden="true"></span>
+    <h2 class="block__title" data-decode>{{ ui.title_ai }}</h2>
+  </div>
+  <p class="block__lead" data-part>{{ content.ai.summary }}</p>
+  <ul class="entries">
+    {% for tool in content.ai.tools %}
+    <li class="entry{% if tool.logo %} entry--with-logo{% endif %}" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      {% if tool.logo %}<div class="entry__logo" data-part>{% include "portfolio/_logo.html" with item=tool %}</div>{% endif %}
+      <div>
+        <h3 class="entry__title" data-part>{{ tool.name }}</h3>
+        <p class="entry__text" data-part>{{ tool.use }}</p>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}

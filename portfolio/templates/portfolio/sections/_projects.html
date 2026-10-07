@@ -1,0 +1,48 @@
+<section id="projetos" class="block" data-stop data-section>
+  <div class="block__head">
+    <span class="node" aria-hidden="true"></span>
+    <h2 class="block__title" data-decode>{{ ui.title_projects }}</h2>
+  </div>
+
+  {% if content.professional_projects %}
+  <h3 class="block__subtitle" data-part>{{ ui.projects_work }}</h3>
+  <ul class="entries entries--spaced">
+    {% for project in content.professional_projects %}
+    <li class="entry" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <h4 class="entry__title" data-part>{{ project.title }}</h4>
+      {% if project.context %}<p class="entry__context" data-part>{{ project.context }}</p>{% endif %}
+      <p class="entry__text" data-part>{{ project.description }}</p>
+      {% if project.stack %}
+      <ul class="tokens" aria-label="{{ ui.stack_label }}">
+        {% for item in project.stack %}<li class="token" data-led>{{ item }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if content.github_projects %}
+  <div class="repos-group" data-stop>
+    <span class="node" aria-hidden="true"></span>
+    <h3 class="block__subtitle" data-part>{{ ui.projects_github }}</h3>
+    <ul class="repos">
+      {% for project in content.github_projects %}
+      <li data-part>
+        <a class="repo panel" href="{{ project.url }}" target="_blank" rel="noopener" data-tilt>
+          <h4 class="repo__name">{{ project.title }}</h4>
+          <p class="repo__text">{{ project.description }}</p>
+          {% if project.stack %}
+          <ul class="tokens" aria-label="{{ ui.stack_label }}">
+            {% for item in project.stack %}<li class="token">{{ item }}</li>{% endfor %}
+          </ul>
+          {% endif %}
+          <span class="visually-hidden">{{ ui.repo_new_tab }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</section>

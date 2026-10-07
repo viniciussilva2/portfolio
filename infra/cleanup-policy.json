@@ -1,0 +1,12 @@
+[
+  {
+    "name": "manter-as-3-mais-recentes",
+    "action": { "type": "Keep" },
+    "mostRecentVersions": { "keepCount": 3 }
+  },
+  {
+    "name": "apagar-o-resto",
+    "action": { "type": "Delete" },
+    "condition": { "tagState": "any" }
+  }
+]

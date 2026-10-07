@@ -1,0 +1,230 @@
+# Textos da interface: menus, botões, rótulos e mensagens do formulário.
+# Cada texto existe nos três idiomas do site (pt, en, es). Um texto igual em
+# todos pode ser escrito uma vez só, sem o bloco de idiomas.
+# O teste da esteira falha se faltar tradução ou se um template usar uma chave
+# que não existe aqui.
+
+# Barra do topo
+skip_link:
+  pt: Pular para o conteúdo
+  en: Skip to content
+  es: Saltar al contenido
+mark_label:
+  pt: voltar ao início
+  en: back to top
+  es: volver al inicio
+nav_label:
+  pt: Seções da página
+  en: Page sections
+  es: Secciones de la página
+nav_about:
+  pt: Sobre
+  en: About
+  es: Sobre mí
+nav_experience:
+  pt: Experiência
+  en: Experience
+  es: Experiencia
+nav_skills:
+  pt: Habilidades
+  en: Skills
+  es: Habilidades
+nav_ai:
+  pt: IA
+  en: AI
+  es: IA
+nav_projects:
+  pt: Projetos
+  en: Projects
+  es: Proyectos
+nav_contact:
+  pt: Contato
+  en: Contact
+  es: Contacto
+menu_toggle:
+  pt: Abrir ou fechar o menu
+  en: Open or close the menu
+  es: Abrir o cerrar el menú
+language_label:
+  pt: Idioma do site
+  en: Site language
+  es: Idioma del sitio
+
+# Início
+hero_contact:
+  pt: Falar comigo
+  en: Get in touch
+  es: Hablar conmigo
+hero_experience:
+  pt: Ver experiência
+  en: See experience
+  es: Ver experiencia
+spec_label:
+  pt: Resumo profissional
+  en: Professional summary
+  es: Resumen profesional
+photo_alt:
+  pt: Foto de
+  en: Photo of
+  es: Foto de
+spec_where:
+  pt: Onde
+  en: Where
+  es: Dónde
+spec_since:
+  pt: Desde
+  en: Since
+  es: Desde
+spec_in_tech:
+  pt: Em TI há
+  en: In tech for
+  es: En TI hace
+year_one:
+  pt: ano
+  en: year
+  es: año
+year_many:
+  pt: anos
+  en: years
+  es: años
+spec_base:
+  pt: Base
+  en: Based in
+  es: Base
+spec_stack: Stack
+
+# Títulos das seções
+title_about:
+  pt: Sobre
+  en: About
+  es: Sobre mí
+title_experience:
+  pt: Experiência
+  en: Experience
+  es: Experiencia
+title_skills:
+  pt: Habilidades
+  en: Skills
+  es: Habilidades
+title_ai:
+  pt: Inteligência artificial
+  en: Artificial intelligence
+  es: Inteligencia artificial
+title_projects:
+  pt: Projetos
+  en: Projects
+  es: Proyectos
+title_education:
+  pt: Formação
+  en: Education
+  es: Formación
+title_contact:
+  pt: Contato
+  en: Contact
+  es: Contacto
+
+# Experiência e projetos
+stack_label:
+  pt: Tecnologias usadas
+  en: Technologies used
+  es: Tecnologías usadas
+projects_work:
+  pt: No trabalho
+  en: At work
+  es: En el trabajo
+projects_github:
+  pt: No GitHub
+  en: On GitHub
+  es: En GitHub
+repo_new_tab:
+  pt: (abre o repositório em nova aba)
+  en: (opens the repository in a new tab)
+  es: (abre el repositorio en una pestaña nueva)
+
+# Contato
+contact_lead:
+  pt: Para vagas, projetos ou dúvidas técnicas, escreva pelo formulário ou use um dos canais abaixo.
+  en: For job openings, projects or technical questions, write through the form or use one of the channels below.
+  es: Para vacantes, proyectos o dudas técnicas, escribe por el formulario o usa uno de los canales de abajo.
+contact_lead_no_form:
+  pt: Para vagas, projetos ou dúvidas técnicas, use um dos canais abaixo.
+  en: For job openings, projects or technical questions, use one of the channels below.
+  es: Para vacantes, proyectos o dudas técnicas, usa uno de los canales de abajo.
+form_trap:
+  pt: Não preencha este campo
+  en: Leave this field empty
+  es: No completes este campo
+form_name:
+  pt: Nome
+  en: Name
+  es: Nombre
+form_email:
+  pt: E-mail
+  en: E-mail
+  es: Correo electrónico
+form_message:
+  pt: Mensagem
+  en: Message
+  es: Mensaje
+form_submit:
+  pt: Enviar mensagem
+  en: Send message
+  es: Enviar mensaje
+form_sending:
+  pt: Enviando…
+  en: Sending…
+  es: Enviando…
+form_sent:
+  pt: Mensagem enviada. Respondo pelo e-mail informado.
+  en: Message sent. I will reply to the e-mail you provided.
+  es: Mensaje enviado. Respondo al correo que indicaste.
+form_review:
+  pt: Revise os campos destacados.
+  en: Check the highlighted fields.
+  es: Revisa los campos destacados.
+form_too_many:
+  pt: Muitas mensagens em pouco tempo. Tente de novo em uma hora.
+  en: Too many messages in a short time. Try again in an hour.
+  es: Demasiados mensajes en poco tiempo. Inténtalo de nuevo en una hora.
+form_send_failed:
+  pt: Não foi possível enviar agora. Tente de novo em alguns minutos.
+  en: The message could not be sent right now. Try again in a few minutes.
+  es: No se pudo enviar ahora. Inténtalo de nuevo en unos minutos.
+form_network_error:
+  pt: Não foi possível enviar agora. Verifique sua conexão e tente de novo.
+  en: The message could not be sent right now. Check your connection and try again.
+  es: No se pudo enviar ahora. Revisa tu conexión e inténtalo de nuevo.
+form_expired:
+  pt: O formulário expirou. Envie de novo.
+  en: The form expired. Send it again.
+  es: El formulario caducó. Envíalo de nuevo.
+form_too_fast:
+  pt: Aguarde alguns segundos e envie de novo.
+  en: Wait a few seconds and send it again.
+  es: Espera unos segundos y envíalo de nuevo.
+error_name:
+  pt: Informe seu nome.
+  en: Enter your name.
+  es: Indica tu nombre.
+error_email:
+  pt: Informe seu e-mail.
+  en: Enter your e-mail.
+  es: Indica tu correo electrónico.
+error_email_invalid:
+  pt: Informe um e-mail válido.
+  en: Enter a valid e-mail.
+  es: Indica un correo electrónico válido.
+error_message:
+  pt: Escreva a mensagem.
+  en: Write the message.
+  es: Escribe el mensaje.
+
+# Rodapé
+footer_made:
+  pt: Site feito em Django.
+  en: Site built with Django.
+  es: Sitio hecho en Django.
+footer_top:
+  pt: Voltar ao início
+  en: Back to top
+  es: Volver al inicio

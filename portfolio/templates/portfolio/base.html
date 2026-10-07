@@ -1,0 +1,38 @@
+{% load static %}<!doctype html>
+<html lang="{{ html_lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ profile.name }} | {{ profile.role }}</title>
+  <meta name="description" content="{{ profile.tagline }}">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="{{ page_url }}">
+  {% for language in languages %}<link rel="alternate" hreflang="{{ language.code }}" href="{{ language.url }}">
+  {% endfor %}<link rel="alternate" hreflang="x-default" href="{{ default_url }}">
+  <meta property="og:type" content="profile">
+  <meta property="og:locale" content="{{ html_lang }}">
+  <meta property="og:title" content="{{ profile.name }} | {{ profile.role }}">
+  <meta property="og:description" content="{{ profile.tagline }}">
+  <meta property="og:url" content="{{ page_url }}">
+  <meta property="og:image" content="{{ photo_url }}">
+  <link rel="icon" href="{% static 'portfolio/img/favicon.svg' %}" type="image/svg+xml">
+  <link rel="preload" href="{% static 'portfolio/fonts/michroma-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'portfolio/fonts/ibm-plex-sans-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{% static 'portfolio/css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'portfolio/css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'portfolio/css/sections.css' %}">
+  <script src="{% static 'portfolio/js/boot.js' %}"></script>
+  <script type="application/ld+json">{{ person_json_ld }}</script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">{{ ui.skip_link }}</a>
+  {% block body %}{% endblock %}
+  <script src="{% static 'portfolio/vendor/gsap/gsap.min.js' %}" defer></script>
+  <script src="{% static 'portfolio/js/traces.js' %}" defer></script>
+  <script src="{% static 'portfolio/js/signal.js' %}" defer></script>
+  <script src="{% static 'portfolio/js/motion.js' %}" defer></script>
+  <script src="{% static 'portfolio/js/menu.js' %}" defer></script>
+  <script src="{% static 'portfolio/js/pointer.js' %}" defer></script>
+  <script src="{% static 'portfolio/js/contact.js' %}" defer></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# Runs the production image on this machine: http://localhost:8080
+#
+#   docker compose up --build
+#
+# Same image that goes to Cloud Run, with HTTPS enforcement switched off
+# because there is no TLS on localhost. The contact form is hidden here, as in
+# any production run without a mail server; to see it, set EMAIL_HOST and the
+# other mail variables listed in .env.example.
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      DJANGO_SECRET_KEY: local-only-not-a-secret
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+      DJANGO_HTTPS_ONLY: "false"

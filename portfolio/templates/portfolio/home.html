@@ -1,0 +1,55 @@
+{% extends "portfolio/base.html" %}
+
+{% block body %}
+<div class="spotlight" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a class="topbar__mark" href="#inicio" aria-label="{{ profile.name }}, {{ ui.mark_label }}">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>
+  </a>
+  <div class="topbar__right">
+    <nav class="topbar__nav" id="menu" aria-label="{{ ui.nav_label }}">
+      <a href="#sobre" data-nav>{{ ui.nav_about }}</a>
+      <a href="#experiencia" data-nav>{{ ui.nav_experience }}</a>
+      <a href="#habilidades" data-nav>{{ ui.nav_skills }}</a>
+      {% if content.ai %}<a href="#ia" data-nav>{{ ui.nav_ai }}</a>{% endif %}
+      <a href="#projetos" data-nav>{{ ui.nav_projects }}</a>
+      <a href="#contato" data-nav>{{ ui.nav_contact }}</a>
+    </nav>
+    <ul class="languages" aria-label="{{ ui.language_label }}">
+      {% for language in languages %}
+      <li>
+        <a class="languages__option" href="{{ language.path }}" hreflang="{{ language.code }}" lang="{{ language.code }}" title="{{ language.name }}"{% if language.current %} aria-current="true"{% endif %}>
+          {% include "portfolio/flags/"|add:language.key|add:".svg" %}
+          <span class="visually-hidden">{{ language.name }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <button class="topbar__toggle" type="button" aria-controls="menu" aria-expanded="false" data-menu-toggle>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <span class="visually-hidden">{{ ui.menu_toggle }}</span>
+    </button>
+  </div>
+</header>
+
+<main id="conteudo" class="schematic" data-schematic>
+  <div class="bus" aria-hidden="true">
+    <div class="bus__signal"></div>
+    <div class="bus__head"></div>
+  </div>
+  {% include "portfolio/sections/_hero.html" %}
+  {% include "portfolio/sections/_about.html" %}
+  {% include "portfolio/sections/_experience.html" %}
+  {% include "portfolio/sections/_skills.html" %}
+  {% include "portfolio/sections/_ai.html" %}
+  {% include "portfolio/sections/_projects.html" %}
+  {% include "portfolio/sections/_education.html" %}
+  {% include "portfolio/sections/_contact.html" %}
+</main>
+
+<footer class="footer">
+  <p>© {% now "Y" %} {{ profile.name }}. {{ ui.footer_made }}</p>
+  <a href="#inicio">{{ ui.footer_top }}</a>
+</footer>
+{% endblock %}

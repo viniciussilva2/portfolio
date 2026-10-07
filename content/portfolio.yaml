@@ -1,0 +1,519 @@
+# Conteúdo do site. Editar aqui, commitar, e a esteira publica.
+# Campos obrigatórios e formato são validados em portfolio/content.py;
+# erro neste arquivo quebra o teste na esteira, não o site.
+#
+# Idiomas: o site tem português (padrão), inglês e espanhol. Um texto igual
+# nos três (nome, empresa, tecnologia) é escrito uma vez. Um texto que muda
+# vira um bloco com as três versões, e as três são obrigatórias:
+#
+#   role:
+#     pt: Analista de Sistemas
+#     en: Systems Analyst
+#     es: Analista de Sistemas
+#
+# Meses sempre no formato "AAAA-MM". Emprego atual: omitir "end".
+# Itens marcados com CONFIRMAR precisam da sua revisão. As versões em inglês
+# e espanhol foram traduzidas por mim a partir do português: vale revisar.
+
+profile:
+  name: Vinicius Silva
+  role:
+    pt: Analista de Sistemas
+    en: Systems Analyst
+    es: Analista de Sistemas
+  tagline:
+    pt: Sustentação e evolução de sistemas corporativos com .NET, C# e Django.
+    en: Support and evolution of enterprise systems with .NET, C# and Django.
+    es: Soporte y evolución de sistemas corporativos con .NET, C# y Django.
+  location:
+    pt: Salvador, Bahia, Brasil
+    en: Salvador, Bahia, Brazil
+    es: Salvador, Bahía, Brasil
+  career_start: "2020-02"
+  photo: portfolio/img/vinicius.jpg # CONFIRMAR: trocar por foto em resolução maior
+  stack: [".NET", "C#", "ASP.NET", "Django", "Python", "JavaScript"]
+  about: # CONFIRMAR: rascunho escrito a partir do LinkedIn
+    pt:
+      - >-
+        Sou Analista de Sistemas na Federação das Indústrias do Estado da Bahia
+        (FIEB), em Salvador. Trabalho na sustentação e evolução de sistemas
+        corporativos em .NET Framework e .NET Core: analiso o problema, corrijo
+        e implemento a melhoria em aplicações web usadas no dia a dia do negócio.
+      - >-
+        Comecei em TI em 2020, como aprendiz na Indra, dentro da Secretaria da
+        Fazenda do Estado da Bahia, onde depois atuei com Azure DevOps, pipelines
+        de build e release e Sonar. Passei pelo suporte ao Mezzow Connect, pelo
+        Tribunal de Contas dos Municípios da Bahia, onde criei a API do menu
+        "Decisões" do Portal TCM, e pela Netra Tecnologia, no desenvolvimento do
+        SICCO (Sistema de Controle de Contas).
+      - >-
+        Além do ecossistema .NET, desenvolvo com Python e Django. Este site é
+        um exemplo: aplicação Django em container Docker, publicada por esteira
+        de CI/CD.
+    en:
+      - >-
+        I am a Systems Analyst at the Federation of Industries of the State of
+        Bahia (FIEB), in Salvador, Brazil. I work on the support and evolution
+        of enterprise systems in .NET Framework and .NET Core: I analyse the
+        problem, fix it and deliver the improvement in web applications the
+        business uses every day.
+      - >-
+        I started in IT in 2020 as an apprentice at Indra, inside the Bahia
+        State Department of Finance, where I later worked with Azure DevOps,
+        build and release pipelines and Sonar. Since then I have supported the
+        Mezzow Connect system, built the API behind the "Decisões" menu of the
+        TCM Portal at the Court of Accounts of the Municipalities of Bahia, and
+        developed SICCO (the Accounts Control System) at Netra Tecnologia.
+      - >-
+        Beyond the .NET ecosystem, I develop with Python and Django. This site
+        is an example: a Django application in a Docker container, published by
+        a CI/CD pipeline.
+    es:
+      - >-
+        Soy Analista de Sistemas en la Federación de Industrias del Estado de
+        Bahía (FIEB), en Salvador, Brasil. Trabajo en el soporte y la evolución
+        de sistemas corporativos en .NET Framework y .NET Core: analizo el
+        problema, lo corrijo e implemento la mejora en aplicaciones web que el
+        negocio usa a diario.
+      - >-
+        Empecé en TI en 2020, como aprendiz en Indra, dentro de la Secretaría
+        de Hacienda del Estado de Bahía, donde después trabajé con Azure DevOps,
+        pipelines de build y release y Sonar. Pasé por el soporte de Mezzow
+        Connect, por el Tribunal de Cuentas de los Municipios de Bahía, donde
+        creé la API del menú "Decisões" del Portal TCM, y por Netra Tecnologia,
+        en el desarrollo de SICCO (Sistema de Control de Cuentas).
+      - >-
+        Además del ecosistema .NET, desarrollo con Python y Django. Este sitio
+        es un ejemplo: una aplicación Django en un contenedor Docker, publicada
+        por un pipeline de CI/CD.
+  links:
+    linkedin: https://www.linkedin.com/in/vinicius-silva-a6381122a
+    github: https://github.com/viniciussilva2
+    email: vinyoli.vs@gmail.com # CONFIRMAR: e-mail que aparece publicamente no site
+    # whatsapp: "5571999999999"  # CONFIRMAR: só dígitos, com 55 + DDD. Sem isso o link não aparece.
+
+experiences:
+  - company: Federação das Indústrias do Estado da Bahia (FIEB)
+    logo: portfolio/img/logos/fieb.png
+    role:
+      pt: Analista de Sistemas
+      en: Systems Analyst
+      es: Analista de Sistemas
+    start: "2026-05"
+    location:
+      pt: Salvador, Bahia
+      en: Salvador, Bahia
+      es: Salvador, Bahía
+    summary:
+      pt: >-
+        Sustentação e evolução de sistemas corporativos em .NET Framework e
+        .NET Core, com análise, correção e implementação de melhorias em
+        aplicações web.
+      en: >-
+        Support and evolution of enterprise systems in .NET Framework and
+        .NET Core, with analysis, fixes and improvements to web applications.
+      es: >-
+        Soporte y evolución de sistemas corporativos en .NET Framework y
+        .NET Core, con análisis, corrección e implementación de mejoras en
+        aplicaciones web.
+    highlights:
+      pt:
+        - Manutenção de sistemas legados.
+        - Desenvolvimento de APIs.
+        - Banco de dados SQL Server.
+        - Suporte a demandas de negócio em ambiente corporativo.
+      en:
+        - Maintenance of legacy systems.
+        - API development.
+        - SQL Server databases.
+        - Support for business demands in a corporate environment.
+      es:
+        - Mantenimiento de sistemas heredados.
+        - Desarrollo de APIs.
+        - Bases de datos SQL Server.
+        - Soporte a demandas de negocio en entorno corporativo.
+    stack: [".NET Framework", ".NET Core", "SQL Server", "JavaScript", "HTML/CSS"]
+
+  - company: Netra Tecnologia
+    logo: portfolio/img/logos/netra.svg
+    logo_ground: dark # logo desenhada em branco
+    role:
+      pt: Analista de Sistemas
+      en: Systems Analyst
+      es: Analista de Sistemas
+    start: "2025-12"
+    end: "2026-05"
+    location:
+      pt: Salvador, Bahia (presencial)
+      en: Salvador, Bahia (on-site)
+      es: Salvador, Bahía (presencial)
+    summary:
+      pt: >-
+        Desenvolvimento e manutenção do SICCO (Sistema de Controle de Contas)
+        em arquitetura MVC.
+      en: >-
+        Development and maintenance of SICCO (Accounts Control System) on an
+        MVC architecture.
+      es: >-
+        Desarrollo y mantenimiento de SICCO (Sistema de Control de Cuentas)
+        en arquitectura MVC.
+    highlights:
+      pt:
+        - Desenvolvimento e manutenção de módulos do SICCO com ASP.NET MVC e Razor.
+        - Integração de dados entre o SICCO e o Portal TCM.
+        - Interfaces web responsivas com .NET, HTML/CSS e JavaScript.
+        - Regras de negócio e integração front-end/back-end com JavaScript e jQuery.
+        - Boas práticas de Clean Code e padronização de código.
+      en:
+        - Development and maintenance of SICCO modules with ASP.NET MVC and Razor.
+        - Data integration between SICCO and the TCM Portal.
+        - Responsive web interfaces with .NET, HTML/CSS and JavaScript.
+        - Business rules and front-end/back-end integration with JavaScript and jQuery.
+        - Clean Code practices and code standardisation.
+      es:
+        - Desarrollo y mantenimiento de módulos de SICCO con ASP.NET MVC y Razor.
+        - Integración de datos entre SICCO y el Portal TCM.
+        - Interfaces web responsivas con .NET, HTML/CSS y JavaScript.
+        - Reglas de negocio e integración front-end/back-end con JavaScript y jQuery.
+        - Buenas prácticas de Clean Code y estandarización de código.
+    stack: ["ASP.NET MVC", "Razor", "JavaScript", "jQuery", "HTML/CSS"]
+
+  - company: Tribunal de Contas dos Municípios do Estado da Bahia
+    logo: portfolio/img/logos/tcm.png
+    role:
+      pt: Estagiário Desenvolvedor Backend .NET
+      en: .NET Backend Developer Intern
+      es: Pasante Desarrollador Backend .NET
+    start: "2024-07"
+    end: "2025-12"
+    location:
+      pt: Salvador, Bahia
+      en: Salvador, Bahia
+      es: Salvador, Bahía
+    summary:
+      pt: >-
+        Desenvolvimento de software web em arquitetura MVC com ASP.NET Core e
+        Razor, em time Scrum e Kanban.
+      en: >-
+        Web software development on an MVC architecture with ASP.NET Core and
+        Razor, in a Scrum and Kanban team.
+      es: >-
+        Desarrollo de software web en arquitectura MVC con ASP.NET Core y
+        Razor, en un equipo Scrum y Kanban.
+    highlights:
+      pt:
+        - Criação da API do menu "Decisões" do Portal TCM.
+        - Consultas SQL Server de complexidade básica e intermediária para o Portal TCM.
+        - Interfaces web com .NET, HTML/CSS e JavaScript nativo, integradas ao back-end com jQuery.
+        - Desenvolvimento e manutenção de sistemas aplicando Clean Code.
+        - Rotina com GitHub, Redmine e Postman.
+      en:
+        - Built the API for the "Decisões" menu of the TCM Portal.
+        - SQL Server queries of basic and intermediate complexity for the TCM Portal.
+        - Web interfaces with .NET, HTML/CSS and vanilla JavaScript, integrated with the back end through jQuery.
+        - Development and maintenance of systems applying Clean Code.
+        - Daily work with GitHub, Redmine and Postman.
+      es:
+        - Creación de la API del menú "Decisões" del Portal TCM.
+        - Consultas SQL Server de complejidad básica e intermedia para el Portal TCM.
+        - Interfaces web con .NET, HTML/CSS y JavaScript nativo, integradas al back-end con jQuery.
+        - Desarrollo y mantenimiento de sistemas aplicando Clean Code.
+        - Rutina con GitHub, Redmine y Postman.
+    stack: [".NET", "C#", "ASP.NET Core", "Razor", "SQL Server", "jQuery"]
+
+  - company: Mezzow Tecnologia
+    logo: portfolio/img/logos/mezzow.png
+    role:
+      pt: Auxiliar em Tecnologia da Informação
+      en: IT Assistant
+      es: Auxiliar de Tecnología de la Información
+    start: "2022-01"
+    end: "2022-07"
+    location:
+      pt: Remoto
+      en: Remote
+      es: Remoto
+    summary:
+      pt: >-
+        Suporte e configuração do sistema Mezzow Connect, com recepção de
+        imagens DICOM e verificação de rotinas.
+      en: >-
+        Support and configuration of the Mezzow Connect system, receiving
+        DICOM images and checking routines.
+      es: >-
+        Soporte y configuración del sistema Mezzow Connect, con recepción de
+        imágenes DICOM y verificación de rutinas.
+    highlights:
+      pt:
+        - Atendimento a chamados do Mezzow Connect.
+        - Teste de aplicação e verificação de APIs.
+        - Manutenção de sistemas desenvolvidos em Java.
+      en:
+        - Handling support tickets for Mezzow Connect.
+        - Application testing and API checks.
+        - Maintenance of systems developed in Java.
+      es:
+        - Atención de incidencias de Mezzow Connect.
+        - Pruebas de aplicación y verificación de APIs.
+        - Mantenimiento de sistemas desarrollados en Java.
+    stack: ["Java", "DICOM", "APIs"]
+
+  - company: Indra
+    logo: portfolio/img/logos/indra.svg
+    role:
+      pt: Analista de Sistemas Trainee na SEFAZ-BA
+      en: Trainee Systems Analyst at SEFAZ-BA
+      es: Analista de Sistemas Trainee en SEFAZ-BA
+    start: "2021-07"
+    end: "2021-11"
+    location:
+      pt: Salvador, Bahia (presencial)
+      en: Salvador, Bahia (on-site)
+      es: Salvador, Bahía (presencial)
+    summary:
+      pt: >-
+        Atuação em DevOps na Secretaria da Fazenda do Estado da Bahia, com
+        suporte direto aos times de desenvolvimento.
+      en: >-
+        DevOps work at the Bahia State Department of Finance, directly
+        supporting the development teams.
+      es: >-
+        Trabajo de DevOps en la Secretaría de Hacienda del Estado de Bahía,
+        con soporte directo a los equipos de desarrollo.
+    highlights:
+      pt:
+        - Criação de projetos e repositórios no Azure DevOps.
+        - Configuração de pipelines de build e release.
+        - Configuração e utilização do Sonar.
+        - Geração de build de pacote.
+        - Atendimento a SLA e suporte a desenvolvedores.
+      en:
+        - Creation of projects and repositories in Azure DevOps.
+        - Configuration of build and release pipelines.
+        - Configuration and use of Sonar.
+        - Package build generation.
+        - SLA compliance and developer support.
+      es:
+        - Creación de proyectos y repositorios en Azure DevOps.
+        - Configuración de pipelines de build y release.
+        - Configuración y uso de Sonar.
+        - Generación de builds de paquete.
+        - Cumplimiento de SLA y soporte a desarrolladores.
+    stack: ["Azure DevOps", "Pipelines", "Sonar"]
+
+  - company: Indra
+    logo: portfolio/img/logos/indra.svg
+    role:
+      pt: Aprendiz na SEFAZ-BA
+      en: Apprentice at SEFAZ-BA
+      es: Aprendiz en SEFAZ-BA
+    start: "2020-02"
+    end: "2021-07"
+    location:
+      pt: Salvador, Bahia
+      en: Salvador, Bahia
+      es: Salvador, Bahía
+    summary:
+      pt: >-
+        Participação nas reuniões de definição dos ambientes tecnológicos da
+        Secretaria da Fazenda do Estado da Bahia e validação de especificações
+        e documentos das aplicações desenvolvidas.
+      en: >-
+        Took part in the meetings that defined the technology environments of
+        the Bahia State Department of Finance, and validated specifications
+        and documents for the applications developed.
+      es: >-
+        Participación en las reuniones de definición de los entornos
+        tecnológicos de la Secretaría de Hacienda del Estado de Bahía y
+        validación de especificaciones y documentos de las aplicaciones
+        desarrolladas.
+
+skill_groups:
+  - name: Backend
+    skills: ["C#", ".NET", ".NET Core", ".NET Framework", "ASP.NET Core", "ASP.NET MVC", "Razor", "Python", "Django", "Java"]
+  - name: Frontend
+    skills: ["JavaScript", "jQuery", "HTML", "CSS"]
+  - name:
+      pt: Dados
+      en: Data
+      es: Datos
+    skills: ["SQL Server"]
+  - name: DevOps
+    skills: ["Azure DevOps", "Pipelines Build/Release", "Sonar", "Git", "GitHub"]
+  - name:
+      pt: Práticas
+      en: Practices
+      es: Prácticas
+    skills:
+      pt: ["Arquitetura MVC", "APIs REST", "Clean Code", "Scrum", "Kanban"]
+      en: ["MVC architecture", "REST APIs", "Clean Code", "Scrum", "Kanban"]
+      es: ["Arquitectura MVC", "APIs REST", "Clean Code", "Scrum", "Kanban"]
+  - name:
+      pt: Ferramentas
+      en: Tools
+      es: Herramientas
+    skills: ["Postman", "Redmine", "GitHub Desktop"]
+
+# Seção "Inteligência artificial". Apagar o bloco inteiro esconde a seção e o
+# link no menu.
+ai: # CONFIRMAR: textos escritos por mim a partir do que você descreveu
+  summary:
+    pt: >-
+      Uso inteligência artificial como ferramenta de produtividade no dia a dia
+      de desenvolvimento, para acelerar tarefas repetitivas e a investigação de
+      problemas.
+    en: >-
+      I use artificial intelligence as a productivity tool in day-to-day
+      development, to speed up repetitive tasks and the investigation of
+      problems.
+    es: >-
+      Uso la inteligencia artificial como herramienta de productividad en el
+      día a día del desarrollo, para acelerar tareas repetitivas y la
+      investigación de problemas.
+  tools:
+    - name: GitHub Copilot
+      logo: portfolio/img/logos/github-copilot.svg
+      use:
+        pt: Sugestões e autocompletar de código direto no editor.
+        en: Code suggestions and autocomplete right in the editor.
+        es: Sugerencias y autocompletado de código directamente en el editor.
+    - name: Claude
+      logo: portfolio/img/logos/claude.svg
+      use:
+        pt: Apoio em análise de código, investigação de chamados, leitura de logs e documentação.
+        en: Help with code analysis, investigating support tickets, reading logs and documentation.
+        es: Apoyo en análisis de código, investigación de incidencias, lectura de logs y documentación.
+
+projects:
+  - title:
+      pt: SICCO, Sistema de Controle de Contas
+      en: SICCO, Accounts Control System
+      es: SICCO, Sistema de Control de Cuentas
+    kind: profissional
+    context: Netra Tecnologia
+    description:
+      pt: >-
+        Desenvolvimento e manutenção de módulos do sistema, com regras de
+        negócio e integração front-end/back-end.
+      en: >-
+        Development and maintenance of the system's modules, with business
+        rules and front-end/back-end integration.
+      es: >-
+        Desarrollo y mantenimiento de módulos del sistema, con reglas de
+        negocio e integración front-end/back-end.
+    stack: ["ASP.NET MVC", "Razor", "jQuery"]
+
+  - title:
+      pt: API "Decisões" do Portal TCM
+      en: '"Decisões" API for the TCM Portal'
+      es: API "Decisões" del Portal TCM
+    kind: profissional
+    context: Tribunal de Contas dos Municípios da Bahia
+    description:
+      pt: >-
+        API que alimenta o menu "Decisões" do Portal TCM, com as consultas
+        SQL Server que dão suporte ao portal.
+      en: >-
+        API that feeds the "Decisões" (rulings) menu of the TCM Portal, along
+        with the SQL Server queries that support the portal.
+      es: >-
+        API que alimenta el menú "Decisões" del Portal TCM, con las consultas
+        SQL Server que dan soporte al portal.
+    stack: ["ASP.NET Core", "C#", "SQL Server"]
+
+  - title:
+      pt: Integração entre SICCO e Portal TCM
+      en: Integration between SICCO and the TCM Portal
+      es: Integración entre SICCO y el Portal TCM
+    kind: profissional
+    context: Netra Tecnologia
+    description:
+      pt: Integração de dados entre o SICCO e o Portal TCM.
+      en: Data integration between SICCO and the TCM Portal.
+      es: Integración de datos entre SICCO y el Portal TCM.
+    stack: [".NET"]
+
+  - title:
+      pt: Esteiras Azure DevOps na SEFAZ-BA
+      en: Azure DevOps pipelines at SEFAZ-BA
+      es: Pipelines de Azure DevOps en SEFAZ-BA
+    kind: profissional
+    context: Indra
+    description:
+      pt: >-
+        Projetos, repositórios, pipelines de build e release e análise de
+        código com Sonar para os times de desenvolvimento da Secretaria da
+        Fazenda.
+      en: >-
+        Projects, repositories, build and release pipelines and code analysis
+        with Sonar for the development teams of the State Department of
+        Finance.
+      es: >-
+        Proyectos, repositorios, pipelines de build y release y análisis de
+        código con Sonar para los equipos de desarrollo de la Secretaría de
+        Hacienda.
+    stack: ["Azure DevOps", "Sonar"]
+
+  # CONFIRMAR: descrições dos repositórios escritas a partir do nome e da
+  # descrição no GitHub.
+  - title: ApiWebnet9
+    kind: github
+    description:
+      pt: API em .NET 9 documentada com Scalar.
+      en: ".NET 9 API documented with Scalar."
+      es: API en .NET 9 documentada con Scalar.
+    stack: ["C#", ".NET 9", "Scalar"]
+    url: https://github.com/viniciussilva2/ApiWebnet9
+
+  - title: CadastroCliente
+    kind: github
+    description:
+      pt: API REST de cadastro de clientes com Repository Pattern.
+      en: REST API for customer registration using the Repository Pattern.
+      es: API REST de registro de clientes con Repository Pattern.
+    stack: ["C#", "REST"]
+    url: https://github.com/viniciussilva2/CadastroCliente
+
+  - title: CadastrarFuncionariosMVC
+    kind: github
+    description:
+      pt: Cadastro de funcionários em MVC com Repository Pattern e ViewModels.
+      en: Employee registration in MVC with the Repository Pattern and ViewModels.
+      es: Registro de empleados en MVC con Repository Pattern y ViewModels.
+    stack: ["C#", "ASP.NET MVC"]
+    url: https://github.com/viniciussilva2/CadastrarFuncionariosMVC
+
+  - title: CrudDapper
+    kind: github
+    description:
+      pt: CRUD em C# com acesso a dados via Dapper.
+      en: CRUD in C# with data access through Dapper.
+      es: CRUD en C# con acceso a datos mediante Dapper.
+    stack: ["C#", "Dapper"]
+    url: https://github.com/viniciussilva2/CrudDapper
+
+  - title: cadastro-usuarios-api
+    kind: github
+    description:
+      pt: API de cadastro de usuários em Spring Boot, com front-end em Vue.
+      en: User registration API in Spring Boot, with a Vue front end.
+      es: API de registro de usuarios en Spring Boot, con front-end en Vue.
+    stack: ["Java", "Spring Boot", "Vue"]
+    url: https://github.com/viniciussilva2/cadastro-usuarios-api
+
+  - title: cadastro-funcionarios-django
+    kind: github
+    description:
+      pt: Cadastro de funcionários em Django.
+      en: Employee registration in Django.
+      es: Registro de empleados en Django.
+    stack: ["Python", "Django"]
+    url: https://github.com/viniciussilva2/cadastro-funcionarios-django
+
+education:
+  - institution: Universidade Católica do Salvador
+    course:
+      pt: Análise e Desenvolvimento de Sistemas
+      en: Systems Analysis and Development
+      es: Análisis y Desarrollo de Sistemas
+    # period: "2022 – 2025"  # CONFIRMAR: período ou "cursando" (aceita bloco pt/en/es)

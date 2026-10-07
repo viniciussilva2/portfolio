@@ -1,0 +1,152 @@
+# Esteira: testa, monta a imagem e, na main, publica no Cloud Run.
+#
+#   pull request -> test, image
+#   push na main -> test, image, deploy
+#
+# O deploy só roda depois que as variáveis do GCP forem cadastradas no
+# repositório (ver infra/gcp-setup.md). Antes disso ele é pulado, e a esteira
+# continua verde.
+name: Pipeline
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Testes e lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Instalar dependências
+        run: uv sync --frozen
+
+      - name: Lint
+        run: uv run ruff check .
+
+      - name: Formatação
+        run: uv run ruff format --check .
+
+      - name: Testes
+        run: uv run pytest
+
+      - name: Checagem de produção do Django
+        env:
+          DJANGO_ENV: production
+          DJANGO_SECRET_KEY: only-for-this-check-${{ github.sha }}-${{ github.run_id }}-padding
+          DJANGO_ALLOWED_HOSTS: exemplo.com.br
+        run: uv run python manage.py check --deploy --fail-level WARNING
+
+  image:
+    name: Imagem Docker
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Montar imagem
+        run: docker build --tag portfolio:ci .
+
+      - name: Subir container e conferir que responde
+        run: |
+          docker run --detach --name portfolio --publish 8080:8080 \
+            --env DJANGO_SECRET_KEY=only-for-this-check \
+            --env DJANGO_ALLOWED_HOSTS=localhost \
+            --env DJANGO_HTTPS_ONLY=false \
+            portfolio:ci
+          curl --fail --silent --show-error --retry 10 --retry-delay 2 --retry-connrefused \
+            http://localhost:8080/healthz
+          for page in / /en/ /es/; do
+            curl --fail --silent --show-error --output /dev/null "http://localhost:8080${page}"
+          done
+
+      - name: Log do container
+        if: always()
+        run: docker logs portfolio
+
+  deploy:
+    name: Publicar no Cloud Run
+    needs: [test, image]
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      vars.GCP_PROJECT_ID != ''
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # login no GCP sem chave, por Workload Identity Federation
+    env:
+      REGION: us-east1
+      SERVICE: portfolio
+      IMAGE: us-east1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/portfolio/web:${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+
+      - uses: google-github-actions/setup-gcloud@v3
+
+      - name: Enviar imagem para o Artifact Registry
+        run: |
+          gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
+          docker build --tag "$IMAGE" .
+          docker push "$IMAGE"
+
+      - name: Publicar
+        env:
+          RUNTIME_SERVICE_ACCOUNT: ${{ vars.GCP_RUNTIME_SERVICE_ACCOUNT }}
+          SITE_HOSTS: ${{ vars.SITE_HOSTS }}
+          SITE_CANONICAL_HOST: ${{ vars.SITE_CANONICAL_HOST }}
+          EMAIL_HOST: ${{ vars.EMAIL_HOST }}
+          EMAIL_HOST_USER: ${{ vars.EMAIL_HOST_USER }}
+          DEFAULT_FROM_EMAIL: ${{ vars.DEFAULT_FROM_EMAIL }}
+          CONTACT_TO_EMAIL: ${{ vars.CONTACT_TO_EMAIL }}
+        run: |
+          # "@" separa as variáveis, porque a lista de domínios tem vírgulas.
+          env_vars="DJANGO_ALLOWED_HOSTS=${SITE_HOSTS}"
+          secrets="DJANGO_SECRET_KEY=django-secret-key:latest"
+          # Sem endereço principal cadastrado, o site responde em todos os domínios.
+          if [ -n "$SITE_CANONICAL_HOST" ]; then
+            env_vars="${env_vars}@DJANGO_CANONICAL_HOST=${SITE_CANONICAL_HOST}"
+          fi
+          # Sem servidor de e-mail cadastrado, o site sobe sem o formulário.
+          if [ -n "$EMAIL_HOST" ]; then
+            env_vars="${env_vars}@EMAIL_HOST=${EMAIL_HOST}@EMAIL_HOST_USER=${EMAIL_HOST_USER}"
+            env_vars="${env_vars}@DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}@CONTACT_TO_EMAIL=${CONTACT_TO_EMAIL}"
+            secrets="${secrets},EMAIL_HOST_PASSWORD=email-host-password:latest"
+          fi
+          gcloud run deploy "$SERVICE" \
+            --image "$IMAGE" \
+            --region "$REGION" \
+            --service-account "$RUNTIME_SERVICE_ACCOUNT" \
+            --allow-unauthenticated \
+            --port 8080 \
+            --cpu 1 \
+            --memory 512Mi \
+            --cpu-boost \
+            --min-instances 0 \
+            --max-instances 2 \
+            --set-env-vars "^@^${env_vars}" \
+            --set-secrets "$secrets"
+
+      - name: Conferir que o site publicado responde
+        run: |
+          url="$(gcloud run services describe "$SERVICE" --region "$REGION" --format 'value(status.url)')"
+          echo "Publicado em: $url"
+          curl --fail --silent --show-error --retry 5 --retry-delay 3 "${url}/healthz"
