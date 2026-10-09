@@ -67,7 +67,7 @@ jobs:
             --env DJANGO_ALLOWED_HOSTS=localhost \
             --env DJANGO_HTTPS_ONLY=false \
             portfolio:ci
-          curl --fail --silent --show-error --retry 10 --retry-delay 2 --retry-connrefused \
+          curl --fail --silent --show-error --retry 10 --retry-delay 2 --retry-connrefused --retry-all-errors \
             http://localhost:8080/healthz
           for page in / /en/ /es/; do
             curl --fail --silent --show-error --output /dev/null "http://localhost:8080${page}"
@@ -149,4 +149,4 @@ jobs:
         run: |
           url="$(gcloud run services describe "$SERVICE" --region "$REGION" --format 'value(status.url)')"
           echo "Publicado em: $url"
-          curl --fail --silent --show-error --retry 5 --retry-delay 3 "${url}/healthz"
+          curl --fail --silent --show-error --retry 5 --retry-delay 3 --retry-all-errors "${url}/healthz"
