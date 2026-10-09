@@ -10,8 +10,11 @@ ENV UV_COMPILE_BYTECODE=1 \
 
 WORKDIR /app
 COPY pyproject.toml uv.lock ./
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev --no-install-project
+# No BuildKit cache mount here on purpose: it buys nothing on a hosted
+# builder, where the cache does not survive the build, and some of them
+# reject a mount whose id they did not namespace. This layer is rebuilt only
+# when the two files above change.
+RUN uv sync --frozen --no-dev --no-install-project
 
 # ---- runtime: the app, its virtualenv, and nothing else ----
 FROM python:3.13-slim
@@ -40,5 +43,7 @@ USER app
 EXPOSE 8080
 
 # One worker with threads suits a small Cloud Run instance; Cloud Run handles
-# request timeouts itself, hence --timeout 0.
-CMD ["sh", "-c", "exec gunicorn config.wsgi:application --bind 0.0.0.0:${PORT} --workers 1 --threads 8 --timeout 0 --access-logfile -"]
+# request timeouts itself, hence --timeout 0. --no-control-socket because
+# nothing attaches gunicornc to this container, and the default socket path
+# ($HOME/.gunicorn) is not writable for a user created with --no-create-home.
+CMD ["sh", "-c", "exec gunicorn config.wsgi:application --bind 0.0.0.0:${PORT} --workers 1 --threads 8 --timeout 0 --no-control-socket --access-logfile -"]
