@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27;; style-src &#x27;self&#x27;; img-src &#x27;self&#x27; data:; font-src &#x27;self&#x27;; connect-src &#x27;self&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;self&#x27;; form-action &#x27;none&#x27;">
+  <title>Vinicius Silva | Analista de Sistemas</title>
+  <meta name="description" content="Soporte y evolución de sistemas corporativos con .NET, C# y Django.">
+  <meta name="theme-color" content="#000000">
+  
+  <link rel="canonical" href="https://viniciussilvadev.com.br/es/">
+  <link rel="alternate" hreflang="pt-BR" href="https://viniciussilvadev.com.br/">
+  <link rel="alternate" hreflang="en" href="https://viniciussilvadev.com.br/en/">
+  <link rel="alternate" hreflang="es" href="https://viniciussilvadev.com.br/es/">
+  <link rel="alternate" hreflang="x-default" href="https://viniciussilvadev.com.br/">
+  <meta property="og:type" content="profile">
+  <meta property="og:locale" content="es">
+  <meta property="og:title" content="Vinicius Silva | Analista de Sistemas">
+  <meta property="og:description" content="Soporte y evolución de sistemas corporativos con .NET, C# y Django.">
+  <meta property="og:url" content="https://viniciussilvadev.com.br/es/">
+  <meta property="og:image" content="https://viniciussilvadev.com.br/static/portfolio/img/vinicius.jpg">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Vinicius Silva", "jobTitle": "Analista de Sistemas", "description": "Soporte y evolución de sistemas corporativos con .NET, C# y Django.", "url": "https://viniciussilvadev.com.br/es/", "image": "https://viniciussilvadev.com.br/static/portfolio/img/vinicius.jpg", "sameAs": ["https://www.linkedin.com/in/vinicius-silva-a6381122a", "https://github.com/viniciussilva2"]}</script>
+
+  <link rel="icon" href="/static/portfolio/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/static/portfolio/fonts/michroma-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/static/portfolio/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/portfolio/css/tokens.css">
+  <link rel="stylesheet" href="/static/portfolio/css/base.css">
+  <link rel="stylesheet" href="/static/portfolio/css/sections.css">
+  <script src="/static/portfolio/js/boot.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Saltar al contenido</a>
+  
+<div class="spotlight" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a class="topbar__mark" href="#inicio" aria-label="Vinicius Silva, volver al inicio">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>
+  </a>
+  <div class="topbar__right">
+    <nav class="topbar__nav" id="menu" aria-label="Secciones de la página">
+      <a href="#sobre" data-nav>Sobre mí</a>
+      <a href="#experiencia" data-nav>Experiencia</a>
+      <a href="#habilidades" data-nav>Habilidades</a>
+      <a href="#ia" data-nav>IA</a>
+      <a href="#projetos" data-nav>Proyectos</a>
+      <a href="#contato" data-nav>Contacto</a>
+    </nav>
+    <ul class="languages" aria-label="Idioma del sitio">
+      
+      <li>
+        <a class="languages__option" href="/" hreflang="pt-BR" lang="pt-BR" title="Português">
+          <svg class="flag" viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" fill="#009739"/><path d="M14 2.6 25 10 14 17.4 3 10z" fill="#fedd00"/><circle cx="14" cy="10" r="4.5" fill="#012169"/><path d="M9.7 9.1a9 9 0 0 1 8.4 2.6" fill="none" stroke="#fff" stroke-width=".9"/></svg>
+
+          <span class="visually-hidden">Português</span>
+        </a>
+      </li>
+      
+      <li>
+        <a class="languages__option" href="/en/" hreflang="en" lang="en" title="English">
+          <svg class="flag" viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" fill="#fff"/><path d="M0 .77h28M0 3.85h28M0 6.92h28M0 10h28M0 13.08h28M0 16.15h28M0 19.23h28" stroke="#b22234" stroke-width="1.54"/><rect width="12.5" height="10.77" fill="#3c3b6e"/><path d="M2 2h.01M5 2h.01M8 2h.01M11 2h.01M3.5 3.9h.01M6.5 3.9h.01M9.5 3.9h.01M2 5.8h.01M5 5.8h.01M8 5.8h.01M11 5.8h.01M3.5 7.7h.01M6.5 7.7h.01M9.5 7.7h.01M2 9.2h.01M5 9.2h.01M8 9.2h.01M11 9.2h.01" stroke="#fff" stroke-width="1.1" stroke-linecap="round"/></svg>
+
+          <span class="visually-hidden">English</span>
+        </a>
+      </li>
+      
+      <li>
+        <a class="languages__option" href="/es/" hreflang="es" lang="es" title="Español" aria-current="true">
+          <svg class="flag" viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" fill="#aa151b"/><rect y="5" width="28" height="10" fill="#f1bf00"/></svg>
+
+          <span class="visually-hidden">Español</span>
+        </a>
+      </li>
+      
+    </ul>
+    <button class="topbar__toggle" type="button" aria-controls="menu" aria-expanded="false" data-menu-toggle>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <span class="visually-hidden">Abrir o cerrar el menú</span>
+    </button>
+  </div>
+</header>
+
+<main id="conteudo" class="schematic" data-schematic>
+  <div class="bus" aria-hidden="true">
+    <div class="bus__signal"></div>
+    <div class="bus__head"></div>
+  </div>
+  
+<section id="inicio" class="hero" data-stop data-hero>
+  <canvas class="hero__traces" data-traces aria-hidden="true"></canvas>
+  <div class="hero__inner">
+    <div class="hero__id">
+      <h1 class="hero__name">
+        <span class="node" aria-hidden="true"></span>
+        <span class="hero__name-line" data-decode>Vinicius</span> <span class="hero__name-line" data-decode>Silva</span> 
+      </h1>
+      <p class="hero__role" data-part>Analista de Sistemas</p>
+      <p class="hero__tagline" data-part>Soporte y evolución de sistemas corporativos con .NET, C# y Django.</p>
+      <div class="hero__actions" data-part>
+        <a class="button button--primary" href="#contato">Hablar conmigo</a>
+        <a class="button" href="#experiencia">Ver experiencia</a>
+      </div>
+    </div>
+
+    <aside class="spec panel" aria-label="Resumen profesional" data-part>
+      <div class="spec__photo">
+        <img src="/static/portfolio/img/vinicius.jpg" width="200" height="200" alt="Foto de Vinicius Silva">
+      </div>
+      <dl class="spec__rows">
+        
+        <div class="spec__row">
+          <dt>Dónde</dt>
+          <dd data-decode>Federação das Indústrias do Estado da Bahia (FIEB)</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Desde</dt>
+          <dd data-decode>may 2026</dd>
+        </div>
+        
+        <div class="spec__row">
+          <dt>En TI hace</dt>
+          <dd><span data-count>6</span> años</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Base</dt>
+          <dd data-decode>Salvador, Bahía, Brasil</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Stack</dt>
+          <dd>
+            <ul class="tokens">
+              <li class="token" data-led>.NET</li><li class="token" data-led>C#</li><li class="token" data-led>ASP.NET</li><li class="token" data-led>Django</li><li class="token" data-led>Python</li><li class="token" data-led>JavaScript</li>
+            </ul>
+          </dd>
+        </div>
+      </dl>
+    </aside>
+  </div>
+</section>
+
+  <section id="sobre" class="block" data-stop data-section>
+  <div class="block__head">
+    <span class="node" aria-hidden="true"></span>
+    <h2 class="block__title" data-decode>Sobre mí</h2>
+  </div>
+  <div class="about">
+    <p data-part>Soy Analista de Sistemas en la Federación de Industrias del Estado de Bahía (FIEB), en Salvador, Brasil. Trabajo en el soporte y la evolución de sistemas corporativos en .NET Framework y .NET Core: analizo el problema, lo corrijo e implemento la mejora en aplicaciones web que el negocio usa a diario.</p>
+    <p data-part>Empecé en TI en 2020, como aprendiz en Indra, dentro de la Secretaría de Hacienda del Estado de Bahía, donde después trabajé con Azure DevOps, pipelines de build y release y Sonar. Pasé por el soporte de Mezzow Connect, por el Tribunal de Cuentas de los Municipios de Bahía, donde creé la API del menú &quot;Decisões&quot; del Portal TCM, y por Netra Tecnologia, en el desarrollo de SICCO (Sistema de Control de Cuentas).</p>
+    <p data-part>Además del ecosistema .NET, desarrollo con Python y Django. Este sitio es un ejemplo: una aplicación Django en un contenedor Docker, publicada por un pipeline de CI/CD.</p>
+    
+  </div>
+</section>
+
+  <section id="experiencia" class="block" data-stop data-section>
+  <div class="block__head">
+    <span class="node" aria-hidden="true"></span>
+    <h2 class="block__title" data-decode>Experiencia</h2>
+  </div>
+  <ol class="jobs">
+    
+    <li class="job job--current" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <div class="job__when" data-part>
+        <p class="job__period">may 2026 – actualidad</p>
+        <p class="job__duration">6 meses</p>
+        <span class="logo"><img src="/static/portfolio/img/logos/fieb.png" alt="" loading="lazy"></span>
+
+      </div>
+      <div class="job__what">
+        <h3 class="job__role" data-part>Analista de Sistemas</h3>
+        <div data-part>
+          <p class="job__company">Federação das Indústrias do Estado da Bahia (FIEB)</p>
+          <p class="job__place">Salvador, Bahía</p>
+        </div>
+        <p class="job__summary" data-part>Soporte y evolución de sistemas corporativos en .NET Framework y .NET Core, con análisis, corrección e implementación de mejoras en aplicaciones web.</p>
+        
+        <ul class="job__highlights" data-part>
+          <li>Mantenimiento de sistemas heredados.</li>
+          <li>Desarrollo de APIs.</li>
+          <li>Bases de datos SQL Server.</li>
+          <li>Soporte a demandas de negocio en entorno corporativo.</li>
+          
+        </ul>
+        
+        
+        <ul class="tokens" aria-label="Tecnologías usadas">
+          <li class="token" data-led>.NET Framework</li><li class="token" data-led>.NET Core</li><li class="token" data-led>SQL Server</li><li class="token" data-led>JavaScript</li><li class="token" data-led>HTML/CSS</li>
+        </ul>
+        
+      </div>
+    </li>
+    
+    <li class="job" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <div class="job__when" data-part>
+        <p class="job__period">dic 2025 – may 2026</p>
+        <p class="job__duration">6 meses</p>
+        <span class="logo logo--dark"><img src="/static/portfolio/img/logos/netra.svg" alt="" loading="lazy"></span>
+
+      </div>
+      <div class="job__what">
+        <h3 class="job__role" data-part>Analista de Sistemas</h3>
+        <div data-part>
+          <p class="job__company">Netra Tecnologia</p>
+          <p class="job__place">Salvador, Bahía (presencial)</p>
+        </div>
+        <p class="job__summary" data-part>Desarrollo y mantenimiento de SICCO (Sistema de Control de Cuentas) en arquitectura MVC.</p>
+        
+        <ul class="job__highlights" data-part>
+          <li>Desarrollo y mantenimiento de módulos de SICCO con ASP.NET MVC y Razor.</li>
+          <li>Integración de datos entre SICCO y el Portal TCM.</li>
+          <li>Interfaces web responsivas con .NET, HTML/CSS y JavaScript.</li>
+          <li>Reglas de negocio e integración front-end/back-end con JavaScript y jQuery.</li>
+          <li>Buenas prácticas de Clean Code y estandarización de código.</li>
+          
+        </ul>
+        
+        
+        <ul class="tokens" aria-label="Tecnologías usadas">
+          <li class="token" data-led>ASP.NET MVC</li><li class="token" data-led>Razor</li><li class="token" data-led>JavaScript</li><li class="token" data-led>jQuery</li><li class="token" data-led>HTML/CSS</li>
+        </ul>
+        
+      </div>
+    </li>
+    
+    <li class="job" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <div class="job__when" data-part>
+        <p class="job__period">jul 2024 – dic 2025</p>
+        <p class="job__duration">1 año y 6 meses</p>
+        <span class="logo"><img src="/static/portfolio/img/logos/tcm.png" alt="" loading="lazy"></span>
+
+      </div>
+      <div class="job__what">
+        <h3 class="job__role" data-part>Pasante Desarrollador Backend .NET</h3>
+        <div data-part>
+          <p class="job__company">Tribunal de Contas dos Municípios do Estado da Bahia</p>
+          <p class="job__place">Salvador, Bahía</p>
+        </div>
+        <p class="job__summary" data-part>Desarrollo de software web en arquitectura MVC con ASP.NET Core y Razor, en un equipo Scrum y Kanban.</p>
+        
+        <ul class="job__highlights" data-part>
+          <li>Creación de la API del menú &quot;Decisões&quot; del Portal TCM.</li>
+          <li>Consultas SQL Server de complejidad básica e intermedia para el Portal TCM.</li>
+          <li>Interfaces web con .NET, HTML/CSS y JavaScript nativo, integradas al back-end con jQuery.</li>
+          <li>Desarrollo y mantenimiento de sistemas aplicando Clean Code.</li>
+          <li>Rutina con GitHub, Redmine y Postman.</li>
+          
+        </ul>
+        
+        
+        <ul class="tokens" aria-label="Tecnologías usadas">
+          <li class="token" data-led>.NET</li><li class="token" data-led>C#</li><li class="token" data-led>ASP.NET Core</li><li class="token" data-led>Razor</li><li class="token" data-led>SQL Server</li><li class="token" data-led>jQuery</li>
+        </ul>
+        
+      </div>
+    </li>
+    
+    <li class="job" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <div class="job__when" data-part>
+        <p class="job__period">ene 2022 – jul 2022</p>
+        <p class="job__duration">7 meses</p>
+        <span class="logo"><img src="/static/portfolio/img/logos/mezzow.png" alt="" loading="lazy"></span>
+
+      </div>
+      <div class="job__what">
+        <h3 class="job__role" data-part>Auxiliar de Tecnología de la Información</h3>
+        <div data-part>
+          <p class="job__company">Mezzow Tecnologia</p>
+          <p class="job__place">Remoto</p>
+        </div>
+        <p class="job__summary" data-part>Soporte y configuración del sistema Mezzow Connect, con recepción de imágenes DICOM y verificación de rutinas.</p>
+        
+        <ul class="job__highlights" data-part>
+          <li>Atención de incidencias de Mezzow Connect.</li>
+          <li>Pruebas de aplicación y verificación de APIs.</li>
+          <li>Mantenimiento de sistemas desarrollados en Java.</li>
+          
+        </ul>
+        
+        
+        <ul class="tokens" aria-label="Tecnologías usadas">
+          <li class="token" data-led>Java</li><li class="token" data-led>DICOM</li><li class="token" data-led>APIs</li>
+        </ul>
+        
+      </div>
+    </li>
+    
+    <li class="job" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <div class="job__when" data-part>
+        <p class="job__period">jul 2021 – nov 2021</p>
+        <p class="job__duration">5 meses</p>
+        <span class="logo"><img src="/static/portfolio/img/logos/indra.svg" alt="" loading="lazy"></span>
+
+      </div>
+      <div class="job__what">
+        <h3 class="job__role" data-part>Analista de Sistemas Trainee en SEFAZ-BA</h3>
+        <div data-part>
+          <p class="job__company">Indra</p>
+          <p class="job__place">Salvador, Bahía (presencial)</p>
+        </div>
+        <p class="job__summary" data-part>Trabajo de DevOps en la Secretaría de Hacienda del Estado de Bahía, con soporte directo a los equipos de desarrollo.</p>
+        
+        <ul class="job__highlights" data-part>
+          <li>Creación de proyectos y repositorios en Azure DevOps.</li>
+          <li>Configuración de pipelines de build y release.</li>
+          <li>Configuración y uso de Sonar.</li>
+          <li>Generación de builds de paquete.</li>
+          <li>Cumplimiento de SLA y soporte a desarrolladores.</li>
+          
+        </ul>
+        
+        
+        <ul class="tokens" aria-label="Tecnologías usadas">
+          <li class="token" data-led>Azure DevOps</li><li class="token" data-led>Pipelines</li><li class="token" data-led>Sonar</li>
+        </ul>
+        
+      </div>
+    </li>
+    
+    <li class="job" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <div class="job__when" data-part>
+        <p class="job__period">feb 2020 – jul 2021</p>
+        <p class="job__duration">1 año y 6 meses</p>
+        <span class="logo"><img src="/static/portfolio/img/logos/indra.svg" alt="" loading="lazy"></span>
+
+      </div>
+      <div class="job__what">
+        <h3 class="job__role" data-part>Aprendiz en SEFAZ-BA</h3>
+        <div data-part>
+          <p class="job__company">Indra</p>
+          <p class="job__place">Salvador, Bahía</p>
+        </div>
+        <p class="job__summary" data-part>Participación en las reuniones de definición de los entornos tecnológicos de la Secretaría de Hacienda del Estado de Bahía y validación de especificaciones y documentos de las aplicaciones desarrolladas.</p>
+        
+        
+      </div>
+    </li>
+    
+  </ol>
+</section>
+
+  <section id="habilidades" class="block" data-stop data-section>
+  <div class="block__head">
+    <span class="node" aria-hidden="true"></span>
+    <h2 class="block__title" data-decode>Habilidades</h2>
+  </div>
+  <dl class="skills">
+    
+    <div class="skills__row" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <dt class="skills__group" data-part>Backend</dt>
+      <dd class="skills__list">
+        <ul class="tokens">
+          <li class="token" data-led>C#</li><li class="token" data-led>.NET</li><li class="token" data-led>.NET Core</li><li class="token" data-led>.NET Framework</li><li class="token" data-led>ASP.NET Core</li><li class="token" data-led>ASP.NET MVC</li><li class="token" data-led>Razor</li><li class="token" data-led>Python</li><li class="token" data-led>Django</li><li class="token" data-led>Java</li>
+        </ul>
+      </dd>
+    </div>
+    
+    <div class="skills__row" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <dt class="skills__group" data-part>Frontend</dt>
+      <dd class="skills__list">
+        <ul class="tokens">
+          <li class="token" data-led>JavaScript</li><li class="token" data-led>jQuery</li><li class="token" data-led>HTML</li><li class="token" data-led>CSS</li>
+        </ul>
+      </dd>
+    </div>
+    
+    <div class="skills__row" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <dt class="skills__group" data-part>Datos</dt>
+      <dd class="skills__list">
+        <ul class="tokens">
+          <li class="token" data-led>SQL Server</li>
+        </ul>
+      </dd>
+    </div>
+    
+    <div class="skills__row" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <dt class="skills__group" data-part>DevOps</dt>
+      <dd class="skills__list">
+        <ul class="tokens">
+          <li class="token" data-led>Azure DevOps</li><li class="token" data-led>Pipelines Build/Release</li><li class="token" data-led>Sonar</li><li class="token" data-led>Git</li><li class="token" data-led>GitHub</li>
+        </ul>
+      </dd>
+    </div>
+    
+    <div class="skills__row" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <dt class="skills__group" data-part>Prácticas</dt>
+      <dd class="skills__list">
+        <ul class="tokens">
+          <li class="token" data-led>Arquitectura MVC</li><li class="token" data-led>APIs REST</li><li class="token" data-led>Clean Code</li><li class="token" data-led>Scrum</li><li class="token" data-led>Kanban</li>
+        </ul>
+      </dd>
+    </div>
+    
+    <div class="skills__row" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <dt class="skills__group" data-part>Herramientas</dt>
+      <dd class="skills__list">
+        <ul class="tokens">
+          <li class="token" data-led>Postman</li><li class="token" data-led>Redmine</li><li class="token" data-led>GitHub Desktop</li>
+        </ul>
+      </dd>
+    </div>
+    
+  </dl>
+</section>
+
+  
+<section id="ia" class="block" data-stop data-section>
+  <div class="block__head">
+    <span class="node" aria-hidden="true"></span>
+    <h2 class="block__title" data-decode>Inteligencia artificial</h2>
+  </div>
+  <p class="block__lead" data-part>Uso la inteligencia artificial como herramienta de productividad en el día a día del desarrollo, para acelerar tareas repetitivas y la investigación de problemas.</p>
+  <ul class="entries">
+    
+    <li class="entry entry--with-logo" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <div class="entry__logo" data-part><span class="logo"><img src="/static/portfolio/img/logos/github-copilot.svg" alt="" loading="lazy"></span>
+</div>
+      <div>
+        <h3 class="entry__title" data-part>GitHub Copilot</h3>
+        <p class="entry__text" data-part>Sugerencias y autocompletado de código directamente en el editor.</p>
+      </div>
+    </li>
+    
+    <li class="entry entry--with-logo" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <div class="entry__logo" data-part><span class="logo"><img src="/static/portfolio/img/logos/claude.svg" alt="" loading="lazy"></span>
+</div>
+      <div>
+        <h3 class="entry__title" data-part>Claude</h3>
+        <p class="entry__text" data-part>Apoyo en análisis de código, investigación de incidencias, lectura de logs y documentación.</p>
+      </div>
+    </li>
+    
+  </ul>
+</section>
+
+
+  <section id="projetos" class="block" data-stop data-section>
+  <div class="block__head">
+    <span class="node" aria-hidden="true"></span>
+    <h2 class="block__title" data-decode>Proyectos</h2>
+  </div>
+
+  
+  <h3 class="block__subtitle" data-part>En el trabajo</h3>
+  <ul class="entries entries--spaced">
+    
+    <li class="entry" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <h4 class="entry__title" data-part>SICCO, Sistema de Control de Cuentas</h4>
+      <p class="entry__context" data-part>Netra Tecnologia</p>
+      <p class="entry__text" data-part>Desarrollo y mantenimiento de módulos del sistema, con reglas de negocio e integración front-end/back-end.</p>
+      
+      <ul class="tokens" aria-label="Tecnologías usadas">
+        <li class="token" data-led>ASP.NET MVC</li><li class="token" data-led>Razor</li><li class="token" data-led>jQuery</li>
+      </ul>
+      
+    </li>
+    
+    <li class="entry" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <h4 class="entry__title" data-part>API &quot;Decisões&quot; del Portal TCM</h4>
+      <p class="entry__context" data-part>Tribunal de Contas dos Municípios da Bahia</p>
+      <p class="entry__text" data-part>API que alimenta el menú &quot;Decisões&quot; del Portal TCM, con las consultas SQL Server que dan soporte al portal.</p>
+      
+      <ul class="tokens" aria-label="Tecnologías usadas">
+        <li class="token" data-led>ASP.NET Core</li><li class="token" data-led>C#</li><li class="token" data-led>SQL Server</li>
+      </ul>
+      
+    </li>
+    
+    <li class="entry" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <h4 class="entry__title" data-part>Integración entre SICCO y el Portal TCM</h4>
+      <p class="entry__context" data-part>Netra Tecnologia</p>
+      <p class="entry__text" data-part>Integración de datos entre SICCO y el Portal TCM.</p>
+      
+      <ul class="tokens" aria-label="Tecnologías usadas">
+        <li class="token" data-led>.NET</li>
+      </ul>
+      
+    </li>
+    
+    <li class="entry" data-stop>
+      <span class="node" aria-hidden="true"></span>
+      <h4 class="entry__title" data-part>Pipelines de Azure DevOps en SEFAZ-BA</h4>
+      <p class="entry__context" data-part>Indra</p>
+      <p class="entry__text" data-part>Proyectos, repositorios, pipelines de build y release y análisis de código con Sonar para los equipos de desarrollo de la Secretaría de Hacienda.</p>
+      
+      <ul class="tokens" aria-label="Tecnologías usadas">
+        <li class="token" data-led>Azure DevOps</li><li class="token" data-led>Sonar</li>
+      </ul>
+      
+    </li>
+    
+  </ul>
+  
+
+  
+  <div class="repos-group" data-stop>
+    <span class="node" aria-hidden="true"></span>
+    <h3 class="block__subtitle" data-part>En GitHub</h3>
+    <ul class="repos">
+      
+      <li data-part>
+        <a class="repo panel" href="https://github.com/viniciussilva2/ApiWebnet9" target="_blank" rel="noopener" data-tilt>
+          <h4 class="repo__name">ApiWebnet9</h4>
+          <p class="repo__text">API en .NET 9 documentada con Scalar.</p>
+          
+          <ul class="tokens" aria-label="Tecnologías usadas">
+            <li class="token">C#</li><li class="token">.NET 9</li><li class="token">Scalar</li>
+          </ul>
+          
+          <span class="visually-hidden">(abre el repositorio en una pestaña nueva)</span>
+        </a>
+      </li>
+      
+      <li data-part>
+        <a class="repo panel" href="https://github.com/viniciussilva2/CadastroCliente" target="_blank" rel="noopener" data-tilt>
+          <h4 class="repo__name">CadastroCliente</h4>
+          <p class="repo__text">API REST de registro de clientes con Repository Pattern.</p>
+          
+          <ul class="tokens" aria-label="Tecnologías usadas">
+            <li class="token">C#</li><li class="token">REST</li>
+          </ul>
+          
+          <span class="visually-hidden">(abre el repositorio en una pestaña nueva)</span>
+        </a>
+      </li>
+      
+      <li data-part>
+        <a class="repo panel" href="https://github.com/viniciussilva2/CadastrarFuncionariosMVC" target="_blank" rel="noopener" data-tilt>
+          <h4 class="repo__name">CadastrarFuncionariosMVC</h4>
+          <p class="repo__text">Registro de empleados en MVC con Repository Pattern y ViewModels.</p>
+          
+          <ul class="tokens" aria-label="Tecnologías usadas">
+            <li class="token">C#</li><li class="token">ASP.NET MVC</li>
+          </ul>
+          
+          <span class="visually-hidden">(abre el repositorio en una pestaña nueva)</span>
+        </a>
+      </li>
+      
+      <li data-part>
+        <a class="repo panel" href="https://github.com/viniciussilva2/CrudDapper" target="_blank" rel="noopener" data-tilt>
+          <h4 class="repo__name">CrudDapper</h4>
+          <p class="repo__text">CRUD en C# con acceso a datos mediante Dapper.</p>
+          
+          <ul class="tokens" aria-label="Tecnologías usadas">
+            <li class="token">C#</li><li class="token">Dapper</li>
+          </ul>
+          
+          <span class="visually-hidden">(abre el repositorio en una pestaña nueva)</span>
+        </a>
+      </li>
+      
+      <li data-part>
+        <a class="repo panel" href="https://github.com/viniciussilva2/cadastro-usuarios-api" target="_blank" rel="noopener" data-tilt>
+          <h4 class="repo__name">cadastro-usuarios-api</h4>
+          <p class="repo__text">API de registro de usuarios en Spring Boot, con front-end en Vue.</p>
+          
+          <ul class="tokens" aria-label="Tecnologías usadas">
+            <li class="token">Java</li><li class="token">Spring Boot</li><li class="token">Vue</li>
+          </ul>
+          
+          <span class="visually-hidden">(abre el repositorio en una pestaña nueva)</span>
+        </a>
+      </li>
+      
+      <li data-part>
+        <a class="repo panel" href="https://github.com/viniciussilva2/cadastro-funcionarios-django" target="_blank" rel="noopener" data-tilt>
+          <h4 class="repo__name">cadastro-funcionarios-django</h4>
+          <p class="repo__text">Registro de empleados en Django.</p>
+          
+          <ul class="tokens" aria-label="Tecnologías usadas">
+            <li class="token">Python</li><li class="token">Django</li>
+          </ul>
+          
+          <span class="visually-hidden">(abre el repositorio en una pestaña nueva)</span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+  
+</section>
+
+  <section id="formacao" class="block" data-stop data-section>
+  <div class="block__head">
+    <span class="node" aria-hidden="true"></span>
+    <h2 class="block__title" data-decode>Formación</h2>
+  </div>
+  <ul class="education">
+    
+    <li class="education__item" data-part>
+      <h3 class="education__course">Análisis y Desarrollo de Sistemas</h3>
+      <p class="education__where">Universidade Católica do Salvador</p>
+    </li>
+    
+  </ul>
+</section>
+
+  
+<section id="contato" class="block" data-stop data-section>
+  <div class="block__head">
+    <span class="node" aria-hidden="true"></span>
+    <h2 class="block__title" data-decode>Contacto</h2>
+  </div>
+  <div class="contact" data-part>
+    <p class="contact__lead">Para vacantes, proyectos o dudas técnicas, usa uno de los canales de abajo.</p>
+    <ul class="channels">
+      <li><a href="https://www.linkedin.com/in/vinicius-silva-a6381122a" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/viniciussilva2" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="mailto:vinyoli.vs@gmail.com">vinyoli.vs@gmail.com</a></li>
+      
+    </ul>
+  </div>
+</section>
+
+
+</main>
+
+<footer class="footer">
+  <p>© 2026 Vinicius Silva. Sitio hecho en Django.</p>
+  <a href="#inicio">Volver al inicio</a>
+</footer>
+
+  
+  
+  <script src="/static/portfolio/vendor/gsap/gsap.min.js" defer></script>
+  <script src="/static/portfolio/js/traces.js" defer></script>
+  <script src="/static/portfolio/js/signal.js" defer></script>
+  <script src="/static/portfolio/js/motion.js" defer></script>
+  <script src="/static/portfolio/js/menu.js" defer></script>
+  <script src="/static/portfolio/js/pointer.js" defer></script>
+  
+</body>
+</html>

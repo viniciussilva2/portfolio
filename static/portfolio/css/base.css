@@ -1,0 +1,597 @@
+/* Reset, page frame and the shared pieces: bus, nodes, panels, tokens, buttons. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+  /* The pointer is a "</>"; it points with the tip of the "<". */
+  cursor: url("../img/cursor.svg") 3 16, auto;
+}
+
+a,
+button,
+label {
+  cursor: url("../img/cursor-link.svg") 3 16, pointer;
+}
+
+input,
+textarea {
+  cursor: text;
+}
+
+body {
+  margin: 0;
+  background-color: var(--void);
+  /* Dot grid, on the same pitch as the traces drawn in the hero. */
+  background-image: radial-gradient(circle, rgba(45, 123, 255, 0.2) 1px, transparent 1.5px);
+  background-size: var(--grid) var(--grid);
+  background-position: calc(var(--grid) / 2) calc(var(--grid) / 2);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+dl,
+dd {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--arc);
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: #fff;
+  text-decoration-color: var(--arc);
+}
+
+:focus-visible {
+  outline: 2px solid var(--arc);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 20;
+  padding: 0.5rem 0.875rem;
+  background: var(--signal);
+  color: #000;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* Soft light that follows the pointer (position set in js/pointer.js). */
+.spotlight {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    24rem circle at var(--spot-x, 50%) var(--spot-y, -30%),
+    rgba(45, 123, 255, 0.13),
+    transparent 70%
+  );
+}
+
+/* Top bar. The mark sits on the bus, as its origin. */
+.topbar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+  padding-right: var(--gutter);
+  background: linear-gradient(#000 30%, transparent);
+  pointer-events: none;
+}
+
+.topbar__mark,
+.topbar__right {
+  pointer-events: auto;
+}
+
+.topbar__right {
+  display: flex;
+  gap: clamp(1rem, 2.5vw, 2.25rem);
+  align-items: center;
+}
+
+/* Language switcher: one flag per language, the current one lit. */
+.languages {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.languages__option {
+  display: block;
+  padding: 2px;
+  border: 1px solid transparent;
+  opacity: 0.45;
+  transition:
+    opacity 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.languages__option:hover {
+  opacity: 1;
+}
+
+.languages__option[aria-current="true"] {
+  border-color: var(--arc);
+  box-shadow: 0 0 10px rgba(45, 123, 255, 0.8);
+  opacity: 1;
+}
+
+.flag {
+  display: block;
+  width: 1.625rem;
+  height: auto;
+}
+
+.topbar__mark {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-left: calc(var(--bus-x) - 1.125rem);
+  border: 1px solid var(--signal);
+  background: var(--void);
+  color: var(--arc);
+  text-decoration: none;
+  transition:
+    color 0.2s,
+    box-shadow 0.2s;
+}
+
+.topbar__mark:hover {
+  color: #fff;
+  box-shadow: 0 0 14px rgba(45, 123, 255, 0.7);
+}
+
+.topbar__mark svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.topbar__nav {
+  display: flex;
+  gap: clamp(1rem, 2.5vw, 2.25rem);
+}
+
+.topbar__nav a {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid transparent;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+.topbar__nav a:hover,
+.topbar__nav a.is-active {
+  border-bottom-color: var(--signal);
+  color: #fff;
+}
+
+.topbar__toggle {
+  display: none;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  background: var(--void);
+  color: var(--arc);
+}
+
+.topbar__toggle[aria-expanded="true"] {
+  border-color: var(--arc);
+}
+
+.topbar__toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* Small screens: the section links fold into a panel opened by the button. */
+@media (max-width: 64rem) {
+  .topbar__right {
+    gap: 0.875rem;
+  }
+
+  .js .topbar__toggle {
+    display: grid;
+  }
+
+  .js .topbar__nav {
+    position: absolute;
+    top: 3.75rem;
+    right: var(--gutter);
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    min-width: 13rem;
+    padding: 0.5rem 0;
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
+  }
+
+  .js .topbar__nav.is-open {
+    display: flex;
+  }
+
+  .js .topbar__nav a {
+    padding: 0.75rem 1.25rem;
+    border-bottom: 0;
+    border-left: 2px solid transparent;
+    font-size: 1rem;
+  }
+
+  .js .topbar__nav a:hover,
+  .js .topbar__nav a.is-active {
+    border-left-color: var(--signal);
+  }
+
+  /* Without JavaScript there is no button: keep the one link that matters most. */
+  html:not(.js) .topbar__nav a:not([href="#contato"]) {
+    display: none;
+  }
+}
+
+/* The schematic: bus on the left, signal running down it with the scroll. */
+.schematic {
+  position: relative;
+  z-index: 1;
+}
+
+.bus {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--bus-x);
+  z-index: 2;
+  width: 1px;
+  background: var(--line);
+  pointer-events: none;
+}
+
+.bus__signal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: var(--signal-y, 0);
+  background: linear-gradient(to bottom, var(--signal), var(--arc));
+  box-shadow: 0 0 8px var(--signal);
+}
+
+.bus__head {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px 3px var(--arc);
+  opacity: 0;
+  transform: translateY(var(--signal-y, 0));
+}
+
+.js .bus__head {
+  opacity: 1;
+}
+
+/* A node is where a component taps the bus: a diamond on the bus and a short
+   lead to the component. It lights up when the signal reaches it. */
+.node {
+  position: absolute;
+  top: var(--node-top, 50%);
+  left: calc(-1 * var(--tap));
+  width: var(--tap);
+  height: 1px;
+  pointer-events: none;
+}
+
+.node::before {
+  content: "";
+  position: absolute;
+  inset: 0 0.875rem 0 0;
+  background: var(--line-strong);
+  transform-origin: left;
+  transition:
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color 0.4s;
+}
+
+.node::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--line-strong);
+  background: var(--void);
+  transform: rotate(45deg);
+  transition:
+    background-color 0.3s,
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+
+.motion .node::before {
+  transform: scaleX(0);
+}
+
+.node.is-live::before {
+  background: var(--signal);
+  transform: none;
+}
+
+.node.is-live::after {
+  border-color: var(--arc);
+  background: var(--arc);
+  box-shadow:
+    0 0 0 4px rgba(45, 123, 255, 0.2),
+    0 0 16px var(--signal);
+}
+
+/* Section frame */
+.block {
+  position: relative;
+  padding: var(--block-space) var(--gutter) 0 var(--content-x);
+}
+
+.block:last-of-type {
+  padding-bottom: var(--block-space);
+}
+
+.block__head {
+  position: relative;
+  margin-bottom: clamp(1.75rem, 4vw, 3rem);
+}
+
+.block__title {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.block__subtitle {
+  margin-bottom: 1.5rem;
+  color: var(--muted);
+  font-size: var(--text-base);
+  font-weight: 500;
+}
+
+.block__lead {
+  max-width: var(--measure);
+  margin-bottom: 2.25rem;
+  color: #fff;
+  font-size: var(--text-lead);
+  line-height: 1.5;
+}
+
+/* Panel: a component drawn on the schematic, one corner cut. */
+.panel {
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: var(--cut);
+  height: var(--cut);
+  background: linear-gradient(
+    to top right,
+    transparent calc(50% - 0.75px),
+    var(--line-strong) calc(50% - 0.75px),
+    var(--line-strong) calc(50% + 0.75px),
+    transparent calc(50% + 0.75px)
+  );
+  pointer-events: none;
+}
+
+/* Logo plate: a company or tool mark in its own colours, on a light ground
+   (or a dark one, for marks drawn in white). */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 7.5rem;
+  height: 3.25rem;
+  padding: 0.5rem 0.75rem;
+  background: #f1f6ff;
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%);
+}
+
+.logo--dark {
+  background: #0b1a33;
+}
+
+.logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Technology tokens */
+.tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.token {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--line-strong);
+  background: rgba(45, 123, 255, 0.06);
+  color: var(--arc);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  line-height: 1.3;
+}
+
+/* Buttons */
+.button {
+  --button-cut: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.875rem;
+  padding: 0.625rem 1.375rem;
+  border: 1px solid var(--line-strong);
+  background:
+    linear-gradient(
+        to top right,
+        transparent calc(50% - 0.75px),
+        var(--line-strong) calc(50% - 0.75px),
+        var(--line-strong) calc(50% + 0.75px),
+        transparent calc(50% + 0.75px)
+      )
+      top right / var(--button-cut) var(--button-cut) no-repeat,
+    rgba(0, 0, 0, 0.6);
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--button-cut)) 0,
+    100% var(--button-cut),
+    100% 100%,
+    0 100%
+  );
+  color: var(--text);
+  font: 500 1rem/1.2 var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.button:hover {
+  border-color: var(--arc);
+  color: #fff;
+}
+
+.button:focus-visible {
+  outline-offset: -5px;
+}
+
+.button--primary {
+  border-color: var(--signal);
+  background: var(--signal);
+  color: #000;
+}
+
+.button--primary:hover {
+  border-color: var(--arc);
+  background: var(--arc);
+  color: #000;
+}
+
+.button--primary:focus-visible {
+  outline-color: #000;
+}
+
+.button:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+/* Text being decoded (js/motion.js): typed in behind a couple of raw glyphs. */
+.decode__edge {
+  color: var(--arc);
+}
+
+.decode__rest {
+  opacity: 0;
+}
+
+/* With motion on, components stay dark until the signal reaches their node. */
+.motion [data-part],
+.motion [data-led],
+.motion [data-decode] {
+  opacity: 0;
+}
+
+@keyframes live {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
