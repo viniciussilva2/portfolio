@@ -1,11 +1,10 @@
-# Esteira: testa, monta a imagem e, na main, publica no Cloud Run.
+# Esteira: testa, gera o site e, na main, publica no GitHub Pages.
 #
-#   pull request -> test, image
-#   push na main -> test, image, deploy
+#   pull request -> test, build
+#   push na main -> test, build, deploy
 #
-# O deploy só roda depois que as variáveis do GCP forem cadastradas no
-# repositório (ver infra/gcp-setup.md). Antes disso ele é pulado, e a esteira
-# continua verde.
+# O deploy exige que o Pages esteja ligado no repositório com "GitHub Actions"
+# como origem (ver docs/github-pages.md).
 name: Pipeline
 
 on:
@@ -19,6 +18,11 @@ concurrency:
 
 permissions:
   contents: read
+
+env:
+  # Endereço do site publicado. Cadastre SITE_URL nas variáveis do repositório
+  # para trocar de domínio sem mexer na esteira.
+  SITE_URL: ${{ vars.SITE_URL || 'https://viniciussilvadev.com.br' }}
 
 jobs:
   test:
@@ -43,110 +47,62 @@ jobs:
       - name: Testes
         run: uv run pytest
 
-      - name: Checagem de produção do Django
-        env:
-          DJANGO_ENV: production
-          DJANGO_SECRET_KEY: only-for-this-check-${{ github.sha }}-${{ github.run_id }}-padding
-          DJANGO_ALLOWED_HOSTS: exemplo.com.br
-        run: uv run python manage.py check --deploy --fail-level WARNING
+      - name: Checagem do Django
+        run: uv run python manage.py check
 
-  image:
-    name: Imagem Docker
+  build:
+    name: Gerar o site
     needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
-      - name: Montar imagem
-        run: docker build --tag portfolio:ci .
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
 
-      - name: Subir container e conferir que responde
+      - name: Instalar dependências
+        run: uv sync --frozen
+
+      - name: Gerar o site
+        env:
+          DJANGO_STATIC_BUILD: "1"
+        run: uv run python manage.py build_static --output dist
+
+      - name: Conferir o que foi gerado
         run: |
-          docker run --detach --name portfolio --publish 8080:8080 \
-            --env DJANGO_SECRET_KEY=only-for-this-check \
-            --env DJANGO_ALLOWED_HOSTS=localhost \
-            --env DJANGO_HTTPS_ONLY=false \
-            portfolio:ci
-          curl --fail --silent --show-error --retry 10 --retry-delay 2 --retry-connrefused \
-            http://localhost:8080/healthz
-          for page in / /en/ /es/; do
-            curl --fail --silent --show-error --output /dev/null "http://localhost:8080${page}"
+          for file in index.html en/index.html es/index.html 404.html \
+                      robots.txt sitemap.xml CNAME \
+                      static/portfolio/css/base.css; do
+            test -s "dist/$file" || { echo "faltou dist/$file"; exit 1; }
           done
+          # Vazio de propósito: só a presença importa.
+          test -e dist/.nojekyll || { echo "faltou dist/.nojekyll"; exit 1; }
+          # Nenhuma página pode sair apontando para a máquina do build.
+          ! grep -rq "testserver\|127.0.0.1\|localhost" dist --include='*.html'
+          grep -q "${SITE_URL#https://}" dist/CNAME
 
-      - name: Log do container
-        if: always()
-        run: docker logs portfolio
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
 
   deploy:
-    name: Publicar no Cloud Run
-    needs: [test, image]
-    if: >-
-      github.event_name == 'push' &&
-      github.ref == 'refs/heads/main' &&
-      vars.GCP_PROJECT_ID != ''
+    name: Publicar no GitHub Pages
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      id-token: write # login no GCP sem chave, por Workload Identity Federation
-    env:
-      REGION: us-east1
-      SERVICE: portfolio
-      IMAGE: us-east1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/portfolio/web:${{ github.sha }}
+      pages: write # publicar o site
+      id-token: write # provar à API do Pages que o artefato é desta execução
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v5
-
-      - uses: google-github-actions/auth@v3
-        with:
-          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
-
-      - uses: google-github-actions/setup-gcloud@v3
-
-      - name: Enviar imagem para o Artifact Registry
-        run: |
-          gcloud auth configure-docker us-east1-docker.pkg.dev --quiet
-          docker build --tag "$IMAGE" .
-          docker push "$IMAGE"
-
-      - name: Publicar
-        env:
-          RUNTIME_SERVICE_ACCOUNT: ${{ vars.GCP_RUNTIME_SERVICE_ACCOUNT }}
-          SITE_HOSTS: ${{ vars.SITE_HOSTS }}
-          SITE_CANONICAL_HOST: ${{ vars.SITE_CANONICAL_HOST }}
-          EMAIL_HOST: ${{ vars.EMAIL_HOST }}
-          EMAIL_HOST_USER: ${{ vars.EMAIL_HOST_USER }}
-          DEFAULT_FROM_EMAIL: ${{ vars.DEFAULT_FROM_EMAIL }}
-          CONTACT_TO_EMAIL: ${{ vars.CONTACT_TO_EMAIL }}
-        run: |
-          # "@" separa as variáveis, porque a lista de domínios tem vírgulas.
-          env_vars="DJANGO_ALLOWED_HOSTS=${SITE_HOSTS}"
-          secrets="DJANGO_SECRET_KEY=django-secret-key:latest"
-          # Sem endereço principal cadastrado, o site responde em todos os domínios.
-          if [ -n "$SITE_CANONICAL_HOST" ]; then
-            env_vars="${env_vars}@DJANGO_CANONICAL_HOST=${SITE_CANONICAL_HOST}"
-          fi
-          # Sem servidor de e-mail cadastrado, o site sobe sem o formulário.
-          if [ -n "$EMAIL_HOST" ]; then
-            env_vars="${env_vars}@EMAIL_HOST=${EMAIL_HOST}@EMAIL_HOST_USER=${EMAIL_HOST_USER}"
-            env_vars="${env_vars}@DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}@CONTACT_TO_EMAIL=${CONTACT_TO_EMAIL}"
-            secrets="${secrets},EMAIL_HOST_PASSWORD=email-host-password:latest"
-          fi
-          gcloud run deploy "$SERVICE" \
-            --image "$IMAGE" \
-            --region "$REGION" \
-            --service-account "$RUNTIME_SERVICE_ACCOUNT" \
-            --allow-unauthenticated \
-            --port 8080 \
-            --cpu 1 \
-            --memory 512Mi \
-            --cpu-boost \
-            --min-instances 0 \
-            --max-instances 2 \
-            --set-env-vars "^@^${env_vars}" \
-            --set-secrets "$secrets"
+      - id: deploy
+        uses: actions/deploy-pages@v5
 
       - name: Conferir que o site publicado responde
         run: |
-          url="$(gcloud run services describe "$SERVICE" --region "$REGION" --format 'value(status.url)')"
-          echo "Publicado em: $url"
-          curl --fail --silent --show-error --retry 5 --retry-delay 3 "${url}/healthz"
+          curl --fail --silent --show-error --retry 5 --retry-delay 5 --retry-all-errors \
+            --output /dev/null "$SITE_URL/"
+          echo "Publicado em: $SITE_URL/"

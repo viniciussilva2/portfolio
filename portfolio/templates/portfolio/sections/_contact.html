@@ -4,50 +4,14 @@
     <span class="node" aria-hidden="true"></span>
     <h2 class="block__title" data-decode>{{ ui.title_contact }}</h2>
   </div>
-  <div class="contact{% if not contact_form_enabled %} contact--channels-only{% endif %}">
-    <div class="contact__channels" data-part>
-      <p class="contact__lead">{% if contact_form_enabled %}{{ ui.contact_lead }}{% else %}{{ ui.contact_lead_no_form }}{% endif %}</p>
-      <ul class="channels">
-        <li><a href="{{ links.linkedin }}" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a href="{{ links.github }}" target="_blank" rel="noopener">GitHub</a></li>
-        {% if links.email %}<li><a href="mailto:{{ links.email }}">{{ links.email }}</a></li>{% endif %}
-        {% if links.whatsapp %}<li><a href="https://wa.me/{{ links.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a></li>{% endif %}
-      </ul>
-    </div>
-
-    {% if contact_form_enabled %}
-    <form class="form panel" action="{% url 'contact' %}" method="post" data-contact-form data-sending-label="{{ ui.form_sending }}" data-network-error="{{ ui.form_network_error }}" data-part>
-      {% csrf_token %}
-      <input type="hidden" name="token" value="{{ form_token }}">
-      <div class="form__trap" aria-hidden="true">
-        <label for="id_website">{{ ui.form_trap }}</label>
-        <input type="text" name="website" id="id_website" tabindex="-1" autocomplete="off">
-      </div>
-
-      <div class="field">
-        <label for="id_name">{{ ui.form_name }}</label>
-        <input type="text" name="name" id="id_name" maxlength="120" required autocomplete="name" value="{{ form.name.value|default_if_none:'' }}" aria-describedby="error_name">
-        <p class="field__error" id="error_name" data-error-for="name">{{ form.name.errors.0 }}</p>
-      </div>
-
-      <div class="field">
-        <label for="id_email">{{ ui.form_email }}</label>
-        <input type="email" name="email" id="id_email" maxlength="254" required autocomplete="email" value="{{ form.email.value|default_if_none:'' }}" aria-describedby="error_email">
-        <p class="field__error" id="error_email" data-error-for="email">{{ form.email.errors.0 }}</p>
-      </div>
-
-      <div class="field">
-        <label for="id_message">{{ ui.form_message }}</label>
-        <textarea name="message" id="id_message" rows="6" maxlength="4000" required aria-describedby="error_message">{{ form.message.value|default_if_none:'' }}</textarea>
-        <p class="field__error" id="error_message" data-error-for="message">{{ form.message.errors.0 }}</p>
-      </div>
-
-      <div class="form__footer">
-        <button class="button button--primary" type="submit" data-submit>{{ ui.form_submit }}</button>
-        <p class="form__status{% if contact_error %} form__status--error{% endif %}" role="status" data-form-status>{{ contact_error|default:contact_notice }}</p>
-      </div>
-    </form>
-    {% endif %}
+  <div class="contact" data-part>
+    <p class="contact__lead">{{ ui.contact_lead }}</p>
+    <ul class="channels">
+      <li><a href="{{ links.linkedin }}" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="{{ links.github }}" target="_blank" rel="noopener">GitHub</a></li>
+      {% if links.email %}<li><a href="mailto:{{ links.email }}">{{ links.email }}</a></li>{% endif %}
+      {% if links.whatsapp %}<li><a href="https://wa.me/{{ links.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a></li>{% endif %}
+    </ul>
   </div>
 </section>
 {% endwith %}

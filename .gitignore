@@ -6,3 +6,4 @@ __pycache__/
 staticfiles/
 .env
 node_modules/
+dist/

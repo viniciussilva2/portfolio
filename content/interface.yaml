@@ -1,4 +1,4 @@
-# Textos da interface: menus, botões, rótulos e mensagens do formulário.
+# Textos da interface: menus, botões, rótulos e páginas de apoio.
 # Cada texto existe nos três idiomas do site (pt, en, es). Um texto igual em
 # todos pode ser escrito uma vez só, sem o bloco de idiomas.
 # O teste da esteira falha se faltar tradução ou se um template usar uma chave
@@ -143,81 +143,23 @@ repo_new_tab:
 
 # Contato
 contact_lead:
-  pt: Para vagas, projetos ou dúvidas técnicas, escreva pelo formulário ou use um dos canais abaixo.
-  en: For job openings, projects or technical questions, write through the form or use one of the channels below.
-  es: Para vacantes, proyectos o dudas técnicas, escribe por el formulario o usa uno de los canales de abajo.
-contact_lead_no_form:
   pt: Para vagas, projetos ou dúvidas técnicas, use um dos canais abaixo.
   en: For job openings, projects or technical questions, use one of the channels below.
   es: Para vacantes, proyectos o dudas técnicas, usa uno de los canales de abajo.
-form_trap:
-  pt: Não preencha este campo
-  en: Leave this field empty
-  es: No completes este campo
-form_name:
-  pt: Nome
-  en: Name
-  es: Nombre
-form_email:
-  pt: E-mail
-  en: E-mail
-  es: Correo electrónico
-form_message:
-  pt: Mensagem
-  en: Message
-  es: Mensaje
-form_submit:
-  pt: Enviar mensagem
-  en: Send message
-  es: Enviar mensaje
-form_sending:
-  pt: Enviando…
-  en: Sending…
-  es: Enviando…
-form_sent:
-  pt: Mensagem enviada. Respondo pelo e-mail informado.
-  en: Message sent. I will reply to the e-mail you provided.
-  es: Mensaje enviado. Respondo al correo que indicaste.
-form_review:
-  pt: Revise os campos destacados.
-  en: Check the highlighted fields.
-  es: Revisa los campos destacados.
-form_too_many:
-  pt: Muitas mensagens em pouco tempo. Tente de novo em uma hora.
-  en: Too many messages in a short time. Try again in an hour.
-  es: Demasiados mensajes en poco tiempo. Inténtalo de nuevo en una hora.
-form_send_failed:
-  pt: Não foi possível enviar agora. Tente de novo em alguns minutos.
-  en: The message could not be sent right now. Try again in a few minutes.
-  es: No se pudo enviar ahora. Inténtalo de nuevo en unos minutos.
-form_network_error:
-  pt: Não foi possível enviar agora. Verifique sua conexão e tente de novo.
-  en: The message could not be sent right now. Check your connection and try again.
-  es: No se pudo enviar ahora. Revisa tu conexión e inténtalo de nuevo.
-form_expired:
-  pt: O formulário expirou. Envie de novo.
-  en: The form expired. Send it again.
-  es: El formulario caducó. Envíalo de nuevo.
-form_too_fast:
-  pt: Aguarde alguns segundos e envie de novo.
-  en: Wait a few seconds and send it again.
-  es: Espera unos segundos y envíalo de nuevo.
-error_name:
-  pt: Informe seu nome.
-  en: Enter your name.
-  es: Indica tu nombre.
-error_email:
-  pt: Informe seu e-mail.
-  en: Enter your e-mail.
-  es: Indica tu correo electrónico.
-error_email_invalid:
-  pt: Informe um e-mail válido.
-  en: Enter a valid e-mail.
-  es: Indica un correo electrónico válido.
-error_message:
-  pt: Escreva a mensagem.
-  en: Write the message.
-  es: Escribe el mensaje.
+
+# Página não encontrada (404.html, servida pelo GitHub Pages)
+not_found_title:
+  pt: Página não encontrada
+  en: Page not found
+  es: Página no encontrada
+not_found_lead:
+  pt: O endereço que você abriu não existe ou mudou de lugar.
+  en: The address you opened does not exist or has moved.
+  es: La dirección que abriste no existe o cambió de lugar.
+not_found_home:
+  pt: Ir para o início
+  en: Go to the home page
+  es: Ir al inicio
 
 # Rodapé
 footer_made:

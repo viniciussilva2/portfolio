@@ -4,6 +4,7 @@ import re
 from urllib.parse import urljoin
 
 import pytest
+from django.conf import settings
 from django.utils.html import escape
 
 from portfolio import views
@@ -15,13 +16,6 @@ def home_html(client):
     response = client.get("/")
     assert response.status_code == 200
     return response.content.decode()
-
-
-def test_healthz_answers_ok(client):
-    response = client.get("/healthz")
-
-    assert response.status_code == 200
-    assert response.content == b"ok"
 
 
 def test_home_shows_name_role_and_tagline(home_html):
@@ -105,9 +99,12 @@ def test_home_links_linkedin_and_github_profiles(home_html):
     assert f'href="{links.github}"' in home_html
 
 
-def test_home_has_contact_form_posting_to_contact_endpoint(home_html):
-    assert 'action="/contato"' in home_html
-    assert 'name="csrfmiddlewaretoken"' in home_html
+def test_home_offers_the_direct_contact_channels(home_html):
+    """With no server to receive a form, contact happens through these."""
+    links = get_content().profile.links
+
+    assert '<ul class="channels">' in home_html
+    assert f'href="mailto:{links.email}"' in home_html
 
 
 def _content_with_links(**changes):
@@ -147,7 +144,7 @@ def test_home_describes_the_person_for_search_engines(home_html):
     assert person["@type"] == "Person"
     assert person["name"] == profile.name
     assert person["jobTitle"] == profile.role
-    assert person["url"] == "http://testserver/"
+    assert person["url"] == f"{settings.SITE_URL}/"
     assert set(person["sameAs"]) == {profile.links.linkedin, profile.links.github}
 
 
@@ -169,7 +166,7 @@ def test_robots_allows_crawling_and_points_to_sitemap(client):
     assert response.status_code == 200
     assert response["Content-Type"].startswith("text/plain")
     assert "Allow: /" in body
-    assert "Sitemap: http://testserver/sitemap.xml" in body
+    assert f"Sitemap: {settings.SITE_URL}/sitemap.xml" in body
 
 
 def test_sitemap_lists_home_page(client):
@@ -177,7 +174,7 @@ def test_sitemap_lists_home_page(client):
 
     assert response.status_code == 200
     assert response["Content-Type"].startswith("application/xml")
-    assert "<loc>http://testserver/</loc>" in response.content.decode()
+    assert f"<loc>{settings.SITE_URL}/</loc>" in response.content.decode()
 
 
 def test_every_asset_the_page_loads_exists(client, home_html):
@@ -204,3 +201,12 @@ def test_stylesheets_only_reference_files_that_exist(client, home_html):
 
 def test_unknown_page_returns_404(client):
     assert client.get("/nao-existe").status_code == 404
+
+
+def test_not_found_page_is_plain(client):
+    """Nothing on it animates, so it loads none of the schematic scripts."""
+    html = client.get("/404.html").content.decode()
+
+    assert '<meta name="robots" content="noindex">' in html
+    assert "gsap" not in html
+    assert "traces.js" not in html

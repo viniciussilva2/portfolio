@@ -1,19 +1,17 @@
+"""What protects the published site.
+
+There is no server in production: the site is files on GitHub Pages. So the
+protections that used to come from response headers either travel inside the
+page (the content security policy) or are gone, and nothing on the page may
+send data anywhere.
+"""
+
 import runpy
 
 import pytest
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
 
-ENV_VARS = (
-    "DJANGO_ENV",
-    "DJANGO_SECRET_KEY",
-    "DJANGO_ALLOWED_HOSTS",
-    "DJANGO_HTTPS_ONLY",
-    "DJANGO_CANONICAL_HOST",
-    "EMAIL_HOST",
-    "EMAIL_HOST_USER",
-    "EMAIL_HOST_PASSWORD",
-)
+from portfolio.csp import HEADER_ONLY, meta_policy
 
 
 @pytest.fixture
@@ -21,7 +19,7 @@ def load_settings(monkeypatch):
     """Evaluate config/settings.py under a given environment, without touching Django's own."""
 
     def load(**env):
-        for name in ENV_VARS:
+        for name in ("SITE_URL", "DJANGO_STATIC_BUILD", "DJANGO_DEBUG", "DJANGO_SECRET_KEY"):
             monkeypatch.delenv(name, raising=False)
         for name, value in env.items():
             monkeypatch.setenv(name, value)
@@ -30,129 +28,68 @@ def load_settings(monkeypatch):
     return load
 
 
-def test_production_refuses_to_start_without_secret_key(load_settings):
-    with pytest.raises(ImproperlyConfigured, match="DJANGO_SECRET_KEY"):
-        load_settings(DJANGO_ENV="production")
+def test_published_address_comes_from_the_environment(load_settings):
+    built = load_settings(SITE_URL="https://exemplo.com.br/")
+
+    assert built["SITE_URL"] == "https://exemplo.com.br"
+    assert built["SITE_HOST"] == "exemplo.com.br"
 
 
-def test_production_disables_debug_and_forces_https(load_settings):
-    prod = load_settings(DJANGO_ENV="production", DJANGO_SECRET_KEY="x" * 60)
+def test_the_published_address_is_allowed_to_be_rendered(load_settings):
+    built = load_settings(SITE_URL="https://exemplo.com.br")
 
-    assert prod["DEBUG"] is False
-    assert prod["SECURE_SSL_REDIRECT"] is True
-    assert prod["SECURE_HSTS_SECONDS"] >= 31536000
-    assert prod["CSRF_COOKIE_SECURE"] is True
+    assert "exemplo.com.br" in built["ALLOWED_HOSTS"]
 
 
-def test_production_only_serves_configured_hosts(load_settings):
-    prod = load_settings(
-        DJANGO_ENV="production",
-        DJANGO_SECRET_KEY="x" * 60,
-        DJANGO_ALLOWED_HOSTS="exemplo.com.br, www.exemplo.com.br",
-    )
-
-    assert prod["ALLOWED_HOSTS"] == ["exemplo.com.br", "www.exemplo.com.br"]
+def test_building_the_site_turns_debug_off(load_settings):
+    """A page rendered with debug on could carry settings into the published file."""
+    assert load_settings(DJANGO_STATIC_BUILD="1")["DEBUG"] is False
+    assert load_settings()["DEBUG"] is True
 
 
-def test_main_address_comes_from_the_environment(load_settings):
-    prod = load_settings(
-        DJANGO_ENV="production",
-        DJANGO_SECRET_KEY="x" * 60,
-        DJANGO_CANONICAL_HOST=" exemplo.com.br ",
-    )
-
-    assert prod["CANONICAL_HOST"] == "exemplo.com.br"
-
-
-def test_there_is_no_main_address_unless_one_is_set(load_settings):
-    assert load_settings()["CANONICAL_HOST"] == ""
-
-
-def test_production_serves_hashed_static_files(load_settings):
-    prod = load_settings(DJANGO_ENV="production", DJANGO_SECRET_KEY="x" * 60)
-
-    assert "Manifest" in prod["STORAGES"]["staticfiles"]["BACKEND"]
-
-
-def test_production_can_run_over_plain_http_for_local_container(load_settings):
-    local = load_settings(
-        DJANGO_ENV="production", DJANGO_SECRET_KEY="x" * 60, DJANGO_HTTPS_ONLY="false"
-    )
-
-    assert local["SECURE_SSL_REDIRECT"] is False
-    assert local["CSRF_COOKIE_SECURE"] is False
-
-
-def test_development_does_not_force_https(load_settings):
-    dev = load_settings()
-
-    assert dev["DEBUG"] is True
-    assert dev["SECURE_SSL_REDIRECT"] is False
-
-
-def test_mail_goes_to_console_without_smtp_host(load_settings):
-    dev = load_settings()
-
-    assert dev["MAILERS"]["default"]["BACKEND"].endswith("console.EmailBackend")
-    assert dev["CONTACT_FORM_ENABLED"] is True
-
-
-def test_production_without_a_mail_server_turns_the_contact_form_off(load_settings):
-    """Otherwise visitors would be told "sent" while the message went nowhere."""
-    prod = load_settings(DJANGO_ENV="production", DJANGO_SECRET_KEY="x" * 60)
-
-    assert prod["CONTACT_FORM_ENABLED"] is False
-    assert prod["MAILERS"] == {}
-
-
-def test_production_with_a_mail_server_keeps_the_contact_form(load_settings):
-    prod = load_settings(
-        DJANGO_ENV="production", DJANGO_SECRET_KEY="x" * 60, EMAIL_HOST="smtp.exemplo.com"
-    )
-
-    assert prod["CONTACT_FORM_ENABLED"] is True
-
-
-def test_mail_uses_smtp_credentials_when_host_is_set(load_settings):
-    prod = load_settings(
-        DJANGO_ENV="production",
-        DJANGO_SECRET_KEY="x" * 60,
-        EMAIL_HOST="smtp.exemplo.com",
-        EMAIL_HOST_USER="usuario",
-        EMAIL_HOST_PASSWORD="segredo",
-    )
-    mailer = prod["MAILERS"]["default"]
-
-    assert mailer["BACKEND"].endswith("smtp.EmailBackend")
-    assert mailer["OPTIONS"]["host"] == "smtp.exemplo.com"
-    assert mailer["OPTIONS"]["username"] == "usuario"
-    assert mailer["OPTIONS"]["password"] == "segredo"
-    assert mailer["OPTIONS"]["use_tls"] is True
-
-
-def test_home_sends_strict_content_security_policy(client):
-    policy = client.get("/")["Content-Security-Policy"]
+def test_policy_allows_nothing_from_outside_the_site():
+    policy = meta_policy()
 
     assert "default-src 'self'" in policy
     assert "script-src 'self'" in policy
-    assert "frame-ancestors 'none'" in policy
+    assert "object-src 'none'" in policy
     assert "unsafe-inline" not in policy
+    assert "unsafe-eval" not in policy
 
 
-def test_home_forbids_framing(client):
-    assert client.get("/")["X-Frame-Options"] == "DENY"
+def test_policy_forbids_sending_anything_anywhere():
+    """The site has no form and no server to post to; nothing should be able to try."""
+    policy = meta_policy()
+
+    assert "form-action 'none'" in policy
+    assert "connect-src 'self'" in policy
 
 
-def test_https_redirect_applies_to_pages(client, settings):  # noqa: F811
-    settings.SECURE_SSL_REDIRECT = True
+def test_policy_leaves_out_directives_a_meta_tag_cannot_carry():
+    """Browsers ignore them there and log a warning, so they are not written."""
+    policy = meta_policy()
 
-    response = client.get("/")
-
-    assert response.status_code == 301
-    assert response["Location"] == "https://testserver/"
+    assert "frame-ancestors" in settings.SECURE_CSP, "a política ainda declara a diretiva"
+    assert all(directive not in policy for directive in HEADER_ONLY)
 
 
-def test_healthz_is_exempt_from_https_redirect(client, settings):  # noqa: F811
-    settings.SECURE_SSL_REDIRECT = True
+@pytest.mark.parametrize("url", ["/", "/en/", "/es/", "/404.html"])
+def test_every_page_carries_the_policy(client, url):
+    html = client.get(url).content.decode()
 
-    assert client.get("/healthz").status_code == 200
+    assert '<meta http-equiv="Content-Security-Policy"' in html
+    assert "default-src &#x27;self&#x27;" in html
+
+
+def test_pages_have_no_form_and_nothing_to_post_to(client):
+    html = client.get("/").content.decode()
+
+    assert "<form" not in html
+    assert "csrfmiddlewaretoken" not in html
+
+
+def test_nothing_signs_or_stores_anything_per_visitor():
+    """No sessions, no users, no database: a static site has no state to protect."""
+    assert settings.DATABASES["default"]["ENGINE"] == "django.db.backends.dummy"
+    assert "django.contrib.sessions" not in settings.INSTALLED_APPS
+    assert not any("Csrf" in middleware for middleware in settings.MIDDLEWARE)

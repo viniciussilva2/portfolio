@@ -3,13 +3,10 @@
 import copy
 import datetime as dt
 import re
-import time
 from pathlib import Path
 
 import pytest
 from django.conf import settings
-from django.core import mail
-from django.core.cache import cache
 from django.utils import translation
 from django.utils.html import escape
 
@@ -23,17 +20,7 @@ from portfolio.content import (
     load_interface,
     parse_content,
 )
-from portfolio.forms import new_form_token
 from tests.test_content import VALID
-
-JSON = {"headers": {"Accept": "application/json"}}
-
-
-@pytest.fixture(autouse=True)
-def clean_rate_limit():
-    cache.clear()
-    yield
-    cache.clear()
 
 
 def translated_data():
@@ -163,7 +150,7 @@ def test_content_follows_the_active_language():
         assert get_content().experiences[0].period.endswith("actualidad")
 
 
-# Interface texts (menus, buttons, form)
+# Interface texts (menus, buttons, labels)
 
 
 @pytest.mark.parametrize("language", LANGUAGES)
@@ -226,7 +213,7 @@ def test_english_home(client):
     assert ">Experience<" in html
     assert "May 2026 – present" in html
     assert escape(english.experiences[0].summary) in html
-    assert "Send message" in html
+    assert "For job openings" in html
 
 
 def test_spanish_home(client):
@@ -237,7 +224,7 @@ def test_spanish_home(client):
     assert ">Experiencia<" in html
     assert "actualidad" in html
     assert escape(spanish.experiences[0].summary) in html
-    assert "Enviar mensaje" in html
+    assert "Para vacantes" in html
 
 
 @pytest.mark.parametrize(
@@ -267,70 +254,23 @@ def test_each_flag_names_its_language_for_screen_readers(client):
 def test_pages_tell_search_engines_about_the_other_languages(client):
     html = html_of(client, "/en/")
 
-    assert '<link rel="alternate" hreflang="pt-BR" href="http://testserver/">' in html
-    assert '<link rel="alternate" hreflang="en" href="http://testserver/en/">' in html
-    assert '<link rel="alternate" hreflang="es" href="http://testserver/es/">' in html
-    assert '<link rel="alternate" hreflang="x-default" href="http://testserver/">' in html
-    assert '<link rel="canonical" href="http://testserver/en/">' in html
+    site = settings.SITE_URL
+
+    assert f'<link rel="alternate" hreflang="pt-BR" href="{site}/">' in html
+    assert f'<link rel="alternate" hreflang="en" href="{site}/en/">' in html
+    assert f'<link rel="alternate" hreflang="es" href="{site}/es/">' in html
+    assert f'<link rel="alternate" hreflang="x-default" href="{site}/">' in html
+    assert f'<link rel="canonical" href="{site}/en/">' in html
 
 
 def test_sitemap_lists_every_language(client):
     body = client.get("/sitemap.xml").content.decode()
 
-    for url in ("http://testserver/", "http://testserver/en/", "http://testserver/es/"):
-        assert f"<loc>{url}</loc>" in body
+    for path in ("/", "/en/", "/es/"):
+        assert f"<loc>{settings.SITE_URL}{path}</loc>" in body
 
 
-def test_health_check_has_no_language_versions(client):
-    assert client.get("/healthz").status_code == 200
-    assert client.get("/en/healthz").status_code == 404
-
-
-# Contact form in other languages
-
-
-def message(**overrides):
-    data = {
-        "name": "Mary Recruiter",
-        "email": "mary@company.com",
-        "message": "Hello Vinicius, we have an opening for a systems analyst.",
-        "website": "",
-        "token": new_form_token(issued_at=time.time() - 10),
-    }
-    data.update(overrides)
-    return data
-
-
-def test_english_form_confirms_in_english(client):
-    response = client.post("/en/contato", message(), **JSON)
-
-    assert response.status_code == 200
-    assert response.json()["message"] == "Message sent. I will reply to the e-mail you provided."
-    assert len(mail.outbox) == 1
-
-
-def test_english_form_reports_errors_in_english(client):
-    response = client.post("/en/contato", message(name="", email="mary"), **JSON)
-
-    errors = response.json()["errors"]
-    assert errors["name"] == ["Enter your name."]
-    assert errors["email"] == ["Enter a valid e-mail."]
-
-
-def test_spanish_form_reports_errors_in_spanish(client):
-    response = client.post("/es/contato", message(message=""), **JSON)
-
-    assert response.json()["errors"]["message"] == ["Escribe el mensaje."]
-
-
-def test_without_javascript_english_form_returns_to_the_english_page(client):
-    response = client.post("/en/contato", message())
-
-    assert response.status_code == 302
-    assert response["Location"] == "/en/?contato=enviado#contato"
-
-
-def test_english_page_confirms_delivery_in_english_after_redirect(client):
-    html = html_of(client, "/en/?contato=enviado")
-
-    assert "Message sent. I will reply to the e-mail you provided." in html
+@pytest.mark.parametrize("name", ["robots.txt", "sitemap.xml", "404.html"])
+def test_files_at_the_root_have_no_language_versions(client, name):
+    assert client.get(f"/{name}").status_code == 200
+    assert client.get(f"/en/{name}").status_code == 404
