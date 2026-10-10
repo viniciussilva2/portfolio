@@ -1,5 +1,18 @@
 {% extends "portfolio/base.html" %}
 
+{% block seo %}
+  <link rel="canonical" href="{{ page_url }}">
+  {% for language in languages %}<link rel="alternate" hreflang="{{ language.code }}" href="{{ language.url }}">
+  {% endfor %}<link rel="alternate" hreflang="x-default" href="{{ default_url }}">
+  <meta property="og:type" content="profile">
+  <meta property="og:locale" content="{{ html_lang }}">
+  <meta property="og:title" content="{{ profile.name }} | {{ profile.role }}">
+  <meta property="og:description" content="{{ profile.tagline }}">
+  <meta property="og:url" content="{{ page_url }}">
+  <meta property="og:image" content="{{ photo_url }}">
+  <script type="application/ld+json">{{ person_json_ld }}</script>
+{% endblock %}
+
 {% block body %}
 <div class="spotlight" aria-hidden="true"></div>
 

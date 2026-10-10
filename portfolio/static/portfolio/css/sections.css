@@ -469,19 +469,10 @@
 
 /* Contato */
 .contact {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
-  gap: clamp(2rem, 5vw, 5rem);
-  align-items: start;
-  max-width: 68rem;
-}
-
-.contact--channels-only {
-  grid-template-columns: minmax(0, 1fr);
+  max-width: var(--measure);
 }
 
 .contact__lead {
-  max-width: 34ch;
   color: #fff;
   font-size: var(--text-lead);
   line-height: 1.5;
@@ -499,89 +490,39 @@
   overflow-wrap: anywhere;
 }
 
-.form {
+/* Página não encontrada (404.html): fora do esquemático, sem barra nem bus. */
+.notfound {
   display: grid;
-  gap: 1.125rem;
-  padding: clamp(1.25rem, 3vw, 2rem);
-}
-
-/* Honeypot: off-screen for people, still in the markup for bots. */
-.form__trap {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.field {
-  display: grid;
-  gap: 0.375rem;
-}
-
-.field label {
-  font-size: 0.9375rem;
-  font-weight: 500;
-}
-
-.field input,
-.field textarea {
-  width: 100%;
-  padding: 0.6875rem 0.75rem;
-  border: 1px solid var(--line-strong);
-  border-radius: 0;
-  background: var(--void);
-  color: #fff;
-  font: inherit;
-}
-
-.field textarea {
-  min-height: 8rem;
-  resize: vertical;
-}
-
-.field input:focus-visible,
-.field textarea:focus-visible {
-  border-color: var(--arc);
-  outline: none;
-  box-shadow: 0 0 0 1px var(--arc);
-}
-
-.field input[aria-invalid="true"],
-.field textarea[aria-invalid="true"] {
-  border-color: var(--alert);
-}
-
-.field__error {
-  color: var(--alert);
-  font-size: var(--text-small);
-}
-
-.field__error:empty,
-.form__status:empty {
-  display: none;
-}
-
-.form__footer {
-  display: flex;
-  flex-wrap: wrap;
+  justify-items: start;
+  align-content: center;
   gap: 1rem;
-  align-items: center;
+  min-height: 100svh;
+  padding: 2rem var(--gutter);
 }
 
-.form__status {
-  color: var(--arc);
-  font-size: 0.9375rem;
+.notfound__code {
+  color: var(--line-strong);
+  font-family: var(--font-display);
+  font-size: var(--text-name);
+  line-height: 1;
 }
 
-.form__status--error {
-  color: var(--alert);
+.notfound__title {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 400;
 }
 
-@media (max-width: 56rem) {
-  .contact {
-    grid-template-columns: minmax(0, 1fr);
-  }
+.notfound__lead {
+  max-width: 40ch;
+  color: var(--muted);
+  font-size: var(--text-lead);
+  line-height: 1.5;
+}
+
+.notfound .button {
+  margin-top: 1rem;
 }
 
 /* Rodapé */

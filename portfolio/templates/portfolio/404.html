@@ -1,0 +1,20 @@
+{% extends "portfolio/base.html" %}
+
+{% block title %}{{ ui.not_found_title }} | {{ profile.name }}{% endblock %}
+{% block description %}{{ ui.not_found_lead }}{% endblock %}
+
+{% block seo %}
+  <meta name="robots" content="noindex">
+{% endblock %}
+
+{# Outside the schematic: nothing here is animated, so nothing is loaded. #}
+{% block scripts %}{% endblock %}
+
+{% block body %}
+<main id="conteudo" class="notfound">
+  <p class="notfound__code" aria-hidden="true">404</p>
+  <h1 class="notfound__title">{{ ui.not_found_title }}</h1>
+  <p class="notfound__lead">{{ ui.not_found_lead }}</p>
+  <a class="button button--primary" href="/">{{ ui.not_found_home }}</a>
+</main>
+{% endblock %}
