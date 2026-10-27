@@ -1,13 +1,20 @@
-<section id="formacao" class="block" data-stop data-section>
-  <div class="block__head">
-    <span class="node" aria-hidden="true"></span>
-    <h2 class="block__title" data-decode>{{ ui.title_education }}</h2>
-  </div>
+<section id="formacao" class="section" data-section>
+  <header class="head" data-reveal>
+    <span class="head__kicker" aria-hidden="true"></span>
+    <h2 class="head__title">{{ ui.title_education }}</h2>
+  </header>
   <ul class="education">
     {% for item in content.education %}
-    <li class="education__item" data-part>
-      <h3 class="education__course">{{ item.course }}</h3>
-      <p class="education__where">{{ item.institution }}{% if item.period %}<span class="education__period">, {{ item.period }}</span>{% endif %}</p>
+    <li data-reveal>
+      <div class="course card" data-glow>
+        <span class="course__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M2 9.5 12 5l10 4.5-10 4.5L2 9.5z"/><path d="M6 11.3V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.7"/><path d="M22 9.5V15"/></svg>
+        </span>
+        <div>
+          <h3 class="course__name">{{ item.course }}</h3>
+          <p class="course__where">{{ item.institution }}{% if item.period %}<span>, {{ item.period }}</span>{% endif %}</p>
+        </div>
+      </div>
     </li>
     {% endfor %}
   </ul>

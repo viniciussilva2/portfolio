@@ -1,19 +1,21 @@
-<section id="habilidades" class="block" data-stop data-section>
-  <div class="block__head">
-    <span class="node" aria-hidden="true"></span>
-    <h2 class="block__title" data-decode>{{ ui.title_skills }}</h2>
-  </div>
-  <dl class="skills">
+<section id="habilidades" class="section" data-section>
+  <header class="head" data-reveal>
+    <span class="head__kicker" aria-hidden="true"></span>
+    <h2 class="head__title">{{ ui.title_skills }}</h2>
+  </header>
+  <ul class="skills">
     {% for group in content.skill_groups %}
-    <div class="skills__row" data-stop>
-      <span class="node" aria-hidden="true"></span>
-      <dt class="skills__group" data-part>{{ group.name }}</dt>
-      <dd class="skills__list">
+    <li data-reveal>
+      <div class="skill-card card" data-glow>
+        <div class="skill-card__head">
+          <h3 class="skill-card__name">{{ group.name }}</h3>
+          <span class="skill-card__count" aria-hidden="true">{{ group.skills|length|stringformat:"02d" }}</span>
+        </div>
         <ul class="tokens">
-          {% for skill in group.skills %}<li class="token" data-led>{{ skill }}</li>{% endfor %}
+          {% for skill in group.skills %}<li class="token">{{ skill }}</li>{% endfor %}
         </ul>
-      </dd>
-    </div>
+      </div>
+    </li>
     {% endfor %}
-  </dl>
+  </ul>
 </section>

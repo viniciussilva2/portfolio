@@ -1,4 +1,5 @@
-/* Reset, page frame and the shared pieces: bus, nodes, panels, tokens, buttons. */
+/* Reset, page frame and the shared pieces: navigation, buttons, section
+   heads, cards, tokens, logo plates and the reveal-on-scroll motion. */
 
 *,
 *::before,
@@ -8,35 +9,23 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 6rem;
+  scrollbar-color: #1a2b3b var(--bg);
   -webkit-text-size-adjust: 100%;
-  /* The pointer is a "</>"; it points with the tip of the "<". */
-  cursor: url("../img/cursor.svg") 3 16, auto;
-}
-
-a,
-button,
-label {
-  cursor: url("../img/cursor-link.svg") 3 16, pointer;
-}
-
-input,
-textarea {
-  cursor: text;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
-  background-color: var(--void);
-  /* Dot grid, on the same pitch as the traces drawn in the hero. */
-  background-image: radial-gradient(circle, rgba(45, 123, 255, 0.2) 1px, transparent 1.5px);
-  background-size: var(--grid) var(--grid);
-  background-position: calc(var(--grid) / 2) calc(var(--grid) / 2);
+  overflow-x: clip;
+  background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  counter-reset: section;
 }
 
 h1,
@@ -64,18 +53,27 @@ img {
 }
 
 a {
-  color: var(--arc);
-  text-decoration-color: var(--line-strong);
-  text-underline-offset: 0.2em;
+  color: var(--accent-bright);
+  text-decoration: none;
+  transition: color 0.3s;
 }
 
 a:hover {
   color: #fff;
-  text-decoration-color: var(--arc);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--accent);
+  color: #000;
 }
 
 :focus-visible {
-  outline: 2px solid var(--arc);
+  outline: 2px solid var(--accent-bright);
   outline-offset: 3px;
 }
 
@@ -92,10 +90,12 @@ a:hover {
   position: fixed;
   top: 0.75rem;
   left: 0.75rem;
-  z-index: 20;
-  padding: 0.5rem 0.875rem;
-  background: var(--signal);
+  z-index: 100;
+  padding: 0.625rem 1rem;
+  border-radius: var(--pill);
+  background: var(--accent);
   color: #000;
+  font-weight: 600;
   transform: translateY(-200%);
 }
 
@@ -103,59 +103,166 @@ a:hover {
   transform: none;
 }
 
-/* Soft light that follows the pointer (position set in js/pointer.js). */
-.spotlight {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    24rem circle at var(--spot-x, 50%) var(--spot-y, -30%),
-    rgba(45, 123, 255, 0.13),
-    transparent 70%
-  );
+/* Navigation: a pill of frosted glass floating over the page. A short arc
+   of light runs around its edge. */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 
-/* Top bar. The mark sits on the bus, as its origin. */
-.topbar {
+.nav {
   position: fixed;
-  inset: 0 0 auto;
-  z-index: 10;
+  top: var(--nav-top);
+  left: 50%;
+  z-index: 50;
+  width: min(100% - 1.5rem, 70rem);
+  transform: translateX(-50%);
+}
+
+.nav__pill {
+  position: relative;
   display: flex;
+  gap: 1rem;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
-  padding-right: var(--gutter);
-  background: linear-gradient(#000 30%, transparent);
+  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+  border-radius: var(--pill);
+  background: rgba(8, 11, 16, 0.68);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.nav__pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--border-angle),
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0.07) 68%,
+    var(--accent) 88%,
+    #fff 94%,
+    rgba(255, 255, 255, 0.07) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-spin 5s linear infinite;
   pointer-events: none;
 }
 
-.topbar__mark,
-.topbar__right {
-  pointer-events: auto;
+@keyframes border-spin {
+  to {
+    --border-angle: 360deg;
+  }
 }
 
-.topbar__right {
+.nav__brand {
   display: flex;
-  gap: clamp(1rem, 2.5vw, 2.25rem);
+  flex: none;
+  gap: 0.625rem;
   align-items: center;
+  color: #fff;
+}
+
+.nav__brand:hover {
+  color: #fff;
+}
+
+.nav__brand-icon {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+  font: 900 0.8125rem/1 var(--font-display);
+  letter-spacing: 0.02em;
+  transition: background-color 0.3s;
+}
+
+.nav__brand:hover .nav__brand-icon {
+  background: #fff;
+}
+
+.nav__brand-name {
+  font: 700 1rem/1 var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.nav__links {
+  display: flex;
+  flex: 1;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+.nav__links a {
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--pill);
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    color 0.3s var(--ease),
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.nav__links a:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.nav__links a.is-active {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.09);
+  color: #fff;
+}
+
+.nav__actions {
+  display: flex;
+  flex: none;
+  gap: 0.625rem;
+  align-items: center;
+}
+
+.nav__cta {
+  min-height: 2.5rem;
+  padding: 0.625rem 1.25rem;
+  border-width: 1px;
+  font-size: 0.8125rem;
 }
 
 /* Language switcher: one flag per language, the current one lit. */
 .languages {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .languages__option {
   display: block;
-  padding: 2px;
+  padding: 0.25rem;
   border: 1px solid transparent;
+  border-radius: 8px;
   opacity: 0.45;
   transition:
-    opacity 0.2s,
-    border-color 0.2s,
-    box-shadow 0.2s;
+    opacity 0.3s,
+    border-color 0.3s,
+    background-color 0.3s;
 }
 
 .languages__option:hover {
@@ -163,295 +270,312 @@ a:hover {
 }
 
 .languages__option[aria-current="true"] {
-  border-color: var(--arc);
-  box-shadow: 0 0 10px rgba(45, 123, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.07);
   opacity: 1;
 }
 
 .flag {
   display: block;
-  width: 1.625rem;
+  width: 1.375rem;
   height: auto;
+  border-radius: 3px;
+  overflow: hidden;
 }
 
-.topbar__mark {
-  display: grid;
+.nav__toggle {
+  display: none;
   place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  margin-left: calc(var(--bus-x) - 1.125rem);
-  border: 1px solid var(--signal);
-  background: var(--void);
-  color: var(--arc);
-  text-decoration: none;
-  transition:
-    color 0.2s,
-    box-shadow 0.2s;
-}
-
-.topbar__mark:hover {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
   color: #fff;
-  box-shadow: 0 0 14px rgba(45, 123, 255, 0.7);
 }
 
-.topbar__mark svg {
+.nav__toggle svg {
   width: 1.25rem;
   height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.nav__toggle-close,
+.nav__toggle[aria-expanded="true"] .nav__toggle-open {
+  display: none;
+}
+
+.nav__toggle[aria-expanded="true"] .nav__toggle-close {
+  display: block;
+}
+
+@media (max-width: 80rem) {
+  .nav__brand-name {
+    display: none;
+  }
+}
+
+/* Small screens: the section links fold into a panel under the pill. */
+@media (max-width: 64rem) {
+  .js .nav__toggle {
+    display: grid;
+  }
+
+  .nav__links {
+    display: none;
+  }
+
+  .js .nav__links {
+    position: absolute;
+    top: calc(100% + 0.625rem);
+    right: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.625rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius);
+    background: rgba(8, 11, 16, 0.94);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    transition:
+      opacity 0.3s var(--ease),
+      transform 0.3s var(--ease),
+      visibility 0.3s;
+  }
+
+  .js .nav__links.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+
+  .js .nav__links a {
+    padding: 0.875rem 1.125rem;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .nav__pill {
+    gap: 0.5rem;
+    padding: 0.375rem 0.375rem 0.375rem 0.5rem;
+  }
+
+  .nav__brand {
+    display: none;
+  }
+
+  .nav__actions {
+    gap: 0.375rem;
+  }
+
+  .nav__cta {
+    padding-inline: 0.875rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+  }
+}
+
+/* Buttons: pills. The primary one is filled with the accent; the arrow in a
+   button nudges forward on hover. */
+.button {
+  display: inline-flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0.875rem 1.75rem;
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--pill);
+  background: transparent;
+  color: #fff;
+  font: 600 0.9375rem/1.1 var(--font-display);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    transform 0.3s var(--ease),
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 24px rgba(255, 255, 255, 0.07);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.button svg {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  transition: transform 0.3s var(--ease);
 }
 
-.topbar__nav {
-  display: flex;
-  gap: clamp(1rem, 2.5vw, 2.25rem);
+.button:hover svg {
+  transform: translateX(4px);
 }
 
-.topbar__nav a {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid transparent;
-  color: var(--muted);
-  font-size: 0.9375rem;
-  text-decoration: none;
+.button--primary {
+  border-color: transparent;
+  background: var(--accent);
+  color: #000;
 }
 
-.topbar__nav a:hover,
-.topbar__nav a.is-active {
-  border-bottom-color: var(--signal);
-  color: #fff;
+.button--primary:hover {
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(0, 130, 170, 0.35);
+  color: #000;
 }
 
-.topbar__toggle {
-  display: none;
-  place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  padding: 0;
-  border: 1px solid var(--line-strong);
-  background: var(--void);
-  color: var(--arc);
-}
-
-.topbar__toggle[aria-expanded="true"] {
-  border-color: var(--arc);
-}
-
-.topbar__toggle svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-/* Small screens: the section links fold into a panel opened by the button. */
-@media (max-width: 64rem) {
-  .topbar__right {
-    gap: 0.875rem;
-  }
-
-  .js .topbar__toggle {
-    display: grid;
-  }
-
-  .js .topbar__nav {
-    position: absolute;
-    top: 3.75rem;
-    right: var(--gutter);
-    display: none;
-    flex-direction: column;
-    gap: 0;
-    min-width: 13rem;
-    padding: 0.5rem 0;
-    border: 1px solid var(--line-strong);
-    background: var(--panel);
-  }
-
-  .js .topbar__nav.is-open {
-    display: flex;
-  }
-
-  .js .topbar__nav a {
-    padding: 0.75rem 1.25rem;
-    border-bottom: 0;
-    border-left: 2px solid transparent;
-    font-size: 1rem;
-  }
-
-  .js .topbar__nav a:hover,
-  .js .topbar__nav a.is-active {
-    border-left-color: var(--signal);
-  }
-
-  /* Without JavaScript there is no button: keep the one link that matters most. */
-  html:not(.js) .topbar__nav a:not([href="#contato"]) {
-    display: none;
-  }
-}
-
-/* The schematic: bus on the left, signal running down it with the scroll. */
-.schematic {
+/* Sections: generous space, a hairline between them, content centred in a
+   column. Each head is numbered by a CSS counter, so the numbers follow the
+   sections actually on the page. */
+.section {
   position: relative;
-  z-index: 1;
+  padding: var(--section-space) var(--gutter);
+  border-top: 1px solid var(--hairline);
 }
 
-.bus {
+.section > * {
+  max-width: var(--container);
+  margin-inline: auto;
+}
+
+.head {
+  margin-bottom: clamp(2.75rem, 5vw, 4.5rem);
+}
+
+.head__kicker {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  color: var(--accent-bright);
+  font: 700 0.875rem/1 var(--font-display);
+  letter-spacing: 0.15em;
+}
+
+.head__kicker::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+}
+
+.head__kicker::after {
+  content: "";
+  width: 2.5rem;
+  height: 2px;
+  background: currentColor;
+}
+
+.head__title {
+  color: #fff;
+  font: 800 var(--text-title) / 1.05 var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .head__title {
+    background: linear-gradient(180deg, #fff 35%, rgba(200, 220, 235, 0.55));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.head__lead {
+  max-width: var(--measure);
+  margin-top: 1.5rem;
+  color: var(--text-soft);
+  font-size: var(--text-lead);
+  line-height: 1.6;
+}
+
+.head--center {
+  text-align: center;
+}
+
+.head--center .head__kicker {
+  justify-content: center;
+}
+
+.head--center .head__lead {
+  margin-inline: auto;
+}
+
+/* Card: a quiet panel that brightens under the pointer (js/pointer.js moves
+   the light). */
+.card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  transition:
+    background-color 0.4s var(--ease),
+    border-color 0.4s var(--ease),
+    transform 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
+}
+
+.card::before {
+  content: "";
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: var(--bus-x);
-  z-index: 2;
-  width: 1px;
-  background: var(--line);
+  inset: 0;
+  background: radial-gradient(
+    22rem circle at var(--glow-x, 50%) var(--glow-y, 0%),
+    rgba(63, 181, 220, 0.13),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.4s;
   pointer-events: none;
 }
 
-.bus__signal {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: var(--signal-y, 0);
-  background: linear-gradient(to bottom, var(--signal), var(--arc));
-  box-shadow: 0 0 8px var(--signal);
+.card:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-hover);
 }
 
-.bus__head {
-  position: absolute;
-  top: -3px;
-  left: -3px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 10px 3px var(--arc);
-  opacity: 0;
-  transform: translateY(var(--signal-y, 0));
-}
-
-.js .bus__head {
+.card:hover::before {
   opacity: 1;
 }
 
-/* A node is where a component taps the bus: a diamond on the bus and a short
-   lead to the component. It lights up when the signal reaches it. */
-.node {
-  position: absolute;
-  top: var(--node-top, 50%);
-  left: calc(-1 * var(--tap));
-  width: var(--tap);
-  height: 1px;
-  pointer-events: none;
+/* Technology tokens */
+.tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.node::before {
-  content: "";
-  position: absolute;
-  inset: 0 0.875rem 0 0;
-  background: var(--line-strong);
-  transform-origin: left;
-  transition:
-    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
-    background-color 0.4s;
-}
-
-.node::after {
-  content: "";
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  width: 9px;
-  height: 9px;
-  border: 1px solid var(--line-strong);
-  background: var(--void);
-  transform: rotate(45deg);
-  transition:
-    background-color 0.3s,
-    border-color 0.3s,
-    box-shadow 0.3s;
-}
-
-.motion .node::before {
-  transform: scaleX(0);
-}
-
-.node.is-live::before {
-  background: var(--signal);
-  transform: none;
-}
-
-.node.is-live::after {
-  border-color: var(--arc);
-  background: var(--arc);
-  box-shadow:
-    0 0 0 4px rgba(45, 123, 255, 0.2),
-    0 0 16px var(--signal);
-}
-
-/* Section frame */
-.block {
-  position: relative;
-  padding: var(--block-space) var(--gutter) 0 var(--content-x);
-}
-
-.block:last-of-type {
-  padding-bottom: var(--block-space);
-}
-
-.block__head {
-  position: relative;
-  margin-bottom: clamp(1.75rem, 4vw, 3rem);
-}
-
-.block__title {
-  color: #fff;
-  font-family: var(--font-display);
-  font-size: var(--text-title);
-  font-weight: 400;
-  line-height: 1.25;
-}
-
-.block__subtitle {
-  margin-bottom: 1.5rem;
-  color: var(--muted);
-  font-size: var(--text-base);
+.token {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--pill);
+  background: rgba(0, 130, 170, 0.08);
+  color: var(--text-soft);
+  font-size: 0.8125rem;
   font-weight: 500;
-}
-
-.block__lead {
-  max-width: var(--measure);
-  margin-bottom: 2.25rem;
-  color: #fff;
-  font-size: var(--text-lead);
-  line-height: 1.5;
-}
-
-/* Panel: a component drawn on the schematic, one corner cut. */
-.panel {
-  position: relative;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
-}
-
-.panel::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  right: -1px;
-  width: var(--cut);
-  height: var(--cut);
-  background: linear-gradient(
-    to top right,
-    transparent calc(50% - 0.75px),
-    var(--line-strong) calc(50% - 0.75px),
-    var(--line-strong) calc(50% + 0.75px),
-    transparent calc(50% + 0.75px)
-  );
-  pointer-events: none;
+  line-height: 1.25;
 }
 
 /* Logo plate: a company or tool mark in its own colours, on a light ground
@@ -461,14 +585,15 @@ a:hover {
   align-items: center;
   justify-content: center;
   width: 7.5rem;
-  height: 3.25rem;
-  padding: 0.5rem 0.75rem;
-  background: #f1f6ff;
-  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%);
+  height: 3.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--radius-sm);
+  background: #f4f8fa;
 }
 
 .logo--dark {
-  background: #0b1a33;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0d1824;
 }
 
 .logo img {
@@ -477,106 +602,57 @@ a:hover {
   object-fit: contain;
 }
 
-/* Technology tokens */
-.tokens {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
+/* Bottom of the window: the page fades and blurs as it scrolls out. */
+.page-fade {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+  height: 5.5rem;
+  background: linear-gradient(to top, rgba(5, 8, 15, 0.65), transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000);
+  mask-image: linear-gradient(to bottom, transparent, #000);
+  pointer-events: none;
+  transition: opacity 0.4s;
 }
 
-.token {
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--line-strong);
-  background: rgba(45, 123, 255, 0.06);
-  color: var(--arc);
-  font-family: var(--font-mono);
-  font-size: var(--text-small);
-  line-height: 1.3;
+/* Gone at the end of the page, so the last line is not blurred. */
+.page-fade.is-hidden {
+  opacity: 0;
 }
 
-/* Buttons */
-.button {
-  --button-cut: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.875rem;
-  padding: 0.625rem 1.375rem;
-  border: 1px solid var(--line-strong);
-  background:
-    linear-gradient(
-        to top right,
-        transparent calc(50% - 0.75px),
-        var(--line-strong) calc(50% - 0.75px),
-        var(--line-strong) calc(50% + 0.75px),
-        transparent calc(50% + 0.75px)
-      )
-      top right / var(--button-cut) var(--button-cut) no-repeat,
-    rgba(0, 0, 0, 0.6);
-  clip-path: polygon(
-    0 0,
-    calc(100% - var(--button-cut)) 0,
-    100% var(--button-cut),
-    100% 100%,
-    0 100%
-  );
-  color: var(--text);
-  font: 500 1rem/1.2 var(--font-body);
-  text-decoration: none;
-  cursor: pointer;
+/* Reveal on scroll (js/reveal.js). Hidden only while the script is in charge,
+   so a page without it shows everything. Siblings arrive one after another. */
+.motion [data-reveal] {
+  opacity: 0;
+  transform: translateY(1.75rem);
   transition:
-    background-color 0.2s,
-    border-color 0.2s,
-    color 0.2s;
+    opacity 0.9s var(--ease),
+    transform 0.9s var(--ease);
+  transition-delay: calc(var(--reveal-i, 0) * 90ms);
 }
 
-.button:hover {
-  border-color: var(--arc);
-  color: #fff;
+.motion [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
 }
 
-.button:focus-visible {
-  outline-offset: -5px;
+@media print {
+  .motion [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .nav,
+  .page-fade {
+    display: none;
+  }
 }
 
-.button--primary {
-  border-color: var(--signal);
-  background: var(--signal);
-  color: #000;
-}
-
-.button--primary:hover {
-  border-color: var(--arc);
-  background: var(--arc);
-  color: #000;
-}
-
-.button--primary:focus-visible {
-  outline-color: #000;
-}
-
-.button:disabled {
-  cursor: progress;
-  opacity: 0.6;
-}
-
-/* Text being decoded (js/motion.js): typed in behind a couple of raw glyphs. */
-.decode__edge {
-  color: var(--arc);
-}
-
-.decode__rest {
-  opacity: 0;
-}
-
-/* With motion on, components stay dark until the signal reaches their node. */
-.motion [data-part],
-.motion [data-led],
-.motion [data-decode] {
-  opacity: 0;
-}
-
-@keyframes live {
+@keyframes pulse {
   50% {
     opacity: 0.35;
   }
@@ -593,5 +669,6 @@ a:hover {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
 }

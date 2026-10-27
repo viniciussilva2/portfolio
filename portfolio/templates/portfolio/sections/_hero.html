@@ -1,52 +1,46 @@
 {% load static %}
-<section id="inicio" class="hero" data-stop data-hero>
+<section id="inicio" class="hero" data-section>
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero__glow" aria-hidden="true"></div>
   <canvas class="hero__traces" data-traces aria-hidden="true"></canvas>
+
   <div class="hero__inner">
-    <div class="hero__id">
-      <h1 class="hero__name">
-        <span class="node" aria-hidden="true"></span>
-        {% for word in profile.name.split %}<span class="hero__name-line" data-decode>{{ word }}</span> {% endfor %}
-      </h1>
-      <p class="hero__role" data-part>{{ profile.role }}</p>
-      <p class="hero__tagline" data-part>{{ profile.tagline }}</p>
-      <div class="hero__actions" data-part>
-        <a class="button button--primary" href="#contato">{{ ui.hero_contact }}</a>
+    <div class="hero__portrait" data-reveal>
+      <img src="{% static profile.photo %}" width="200" height="200" alt="{{ ui.photo_alt }} {{ profile.name }}">
+    </div>
+
+    <h1 class="hero__name" data-reveal>
+      {% with parts=profile.name.split %}
+      {% if parts|length > 1 %}<span class="hero__first">{{ parts.0 }}</span> <span class="hero__last">{{ parts|slice:"1:"|join:" " }}</span>{% else %}<span class="hero__last">{{ profile.name }}</span>{% endif %}
+      {% endwith %}
+    </h1>
+
+    <div class="hero__lead" data-reveal>
+      <span class="hero__rule" aria-hidden="true"></span>
+      <p class="hero__role">{{ profile.role }}</p>
+      <p class="hero__place">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        {{ profile.location }}
+      </p>
+    </div>
+
+    <div class="hero__aside" data-reveal>
+      <p class="hero__tagline">{{ profile.tagline }}</p>
+      <div class="hero__actions">
+        <a class="button button--primary" href="#contato">
+          {{ ui.hero_contact }}
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
         <a class="button" href="#experiencia">{{ ui.hero_experience }}</a>
       </div>
     </div>
+  </div>
 
-    <aside class="spec panel" aria-label="{{ ui.spec_label }}" data-part>
-      <div class="spec__photo">
-        <img src="{% static profile.photo %}" width="200" height="200" alt="{{ ui.photo_alt }} {{ profile.name }}">
-      </div>
-      <dl class="spec__rows">
-        {% if current %}
-        <div class="spec__row">
-          <dt>{{ ui.spec_where }}</dt>
-          <dd data-decode>{{ current.company }}</dd>
-        </div>
-        <div class="spec__row">
-          <dt>{{ ui.spec_since }}</dt>
-          <dd data-decode>{{ current.start_label }}</dd>
-        </div>
-        {% endif %}
-        <div class="spec__row">
-          <dt>{{ ui.spec_in_tech }}</dt>
-          <dd><span data-count>{{ profile.years_in_tech }}</span> {{ years_unit }}</dd>
-        </div>
-        <div class="spec__row">
-          <dt>{{ ui.spec_base }}</dt>
-          <dd data-decode>{{ profile.location }}</dd>
-        </div>
-        <div class="spec__row">
-          <dt>{{ ui.spec_stack }}</dt>
-          <dd>
-            <ul class="tokens">
-              {% for item in profile.stack %}<li class="token" data-led>{{ item }}</li>{% endfor %}
-            </ul>
-          </dd>
-        </div>
-      </dl>
-    </aside>
+  {% comment %}
+    The stack written as a line of C#, over the circuit. Decoration only: the
+    same list is in the profile card, where a screen reader gets it plainly.
+  {% endcomment %}
+  <div class="stackline" aria-hidden="true" data-reveal>
+    <code class="stackline__code"><span class="stackline__prompt">&gt;</span> <span class="tok-key">var</span> <span class="tok-name">stack</span> = <span class="tok-key">new</span>[] { {% for item in profile.stack %}<span class="tok-str">"{{ item }}"</span>{% if not forloop.last %}, {% endif %}{% endfor %} };<span class="stackline__caret"></span></code>
   </div>
 </section>

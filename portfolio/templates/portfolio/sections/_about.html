@@ -1,10 +1,61 @@
-<section id="sobre" class="block" data-stop data-section>
-  <div class="block__head">
-    <span class="node" aria-hidden="true"></span>
-    <h2 class="block__title" data-decode>{{ ui.title_about }}</h2>
-  </div>
+{% load static %}
+<section id="sobre" class="section" data-section>
   <div class="about">
-    {% for paragraph in profile.about %}<p data-part>{{ paragraph }}</p>
-    {% endfor %}
+    <div class="about__text">
+      <header class="head" data-reveal>
+        <span class="head__kicker" aria-hidden="true"></span>
+        <h2 class="head__title">{{ ui.title_about }}</h2>
+      </header>
+      <div class="about__bio" data-reveal>
+        {% for paragraph in profile.about %}<p>{{ paragraph }}</p>
+        {% endfor %}
+      </div>
+      <dl class="stats" data-reveal>
+        <div class="stat">
+          <dt>{{ ui.spec_in_tech }}</dt>
+          <dd><span data-count>{{ profile.years_in_tech }}</span> <span class="stat__unit">{{ years_unit }}</span></dd>
+        </div>
+        <div class="stat">
+          <dt>{{ ui.stat_organizations }}</dt>
+          <dd><span data-count>{{ content.company_count }}</span></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="about__aside" data-reveal>
+      <aside class="profile card" aria-label="{{ ui.spec_label }}">
+        <div class="profile__id">
+          <img class="profile__photo" src="{% static profile.photo %}" width="200" height="200" alt="" loading="lazy">
+          <div>
+            <p class="profile__name">{{ profile.name }}</p>
+            <p class="profile__role">{{ profile.role }}</p>
+          </div>
+        </div>
+        <dl class="profile__rows">
+          {% if current %}
+          <div class="profile__row">
+            <dt>{{ ui.spec_where }}</dt>
+            <dd>{{ current.company }}</dd>
+          </div>
+          <div class="profile__row">
+            <dt>{{ ui.spec_since }}</dt>
+            <dd>{{ current.start_label }}</dd>
+          </div>
+          {% endif %}
+          <div class="profile__row">
+            <dt>{{ ui.spec_base }}</dt>
+            <dd>{{ profile.location }}</dd>
+          </div>
+          <div class="profile__row">
+            <dt>{{ ui.spec_stack }}</dt>
+            <dd>
+              <ul class="tokens">
+                {% for item in profile.stack %}<li class="token">{{ item }}</li>{% endfor %}
+              </ul>
+            </dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
   </div>
 </section>

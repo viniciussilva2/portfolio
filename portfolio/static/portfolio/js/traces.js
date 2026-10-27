@@ -1,6 +1,7 @@
-/* Hero background: circuit-board traces with data pulses travelling along
-   them. Traces near the pointer heat up and fire more pulses. Without motion
-   (reduced-motion preference) the traces are drawn once and stay still. */
+/* Bottom of the hero: circuit-board traces with data pulses travelling along
+   them, fading out upward (css/sections.css masks the canvas). Traces near the
+   pointer heat up and fire more pulses. Without motion (reduced-motion
+   preference) the traces are drawn once and stay still. */
 (function () {
   'use strict';
   const canvas = document.querySelector('[data-traces]');
@@ -10,13 +11,14 @@
   const hero = canvas.parentElement;
   const animated = document.documentElement.classList.contains('motion');
 
-  const CELL = 28; // same pitch as --grid in css/tokens.css
+  const CELL = 28; // grid pitch, in CSS pixels
   const DIRECTIONS = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]];
   const INTRO_SECONDS = 1.8;
   const POINTER_REACH = 150;
   const MAX_PULSES = 90;
-  const BLUE = '45, 123, 255';
-  const ICE = '127, 212, 255';
+  const BLUE = '0, 130, 170'; // --accent in css/tokens.css
+  const ICE = '127, 211, 238'; // --accent-ice
+  const GROUND = '#05080f'; // --bg
 
   let width = 0;
   let height = 0;
@@ -42,8 +44,9 @@
   function grow(columns, rows, used) {
     let column = Math.floor(between(1, columns));
     let row = Math.floor(between(1, rows));
-    // Sparser on the left, where the text is.
-    if (Math.random() > 0.25 + 0.75 * (column / columns)) return null;
+    // Sparser in the middle, behind the stack line; denser toward the sides.
+    const fromMiddle = Math.abs(column / columns - 0.5) * 2;
+    if (Math.random() > 0.3 + 0.7 * fromMiddle) return null;
     if (used.has(column + ':' + row)) return null;
 
     const taken = [column + ':' + row];
@@ -120,7 +123,7 @@
   function drawPad(target, point, alpha) {
     target.beginPath();
     target.arc(point.x, point.y, 2.5, 0, Math.PI * 2);
-    target.fillStyle = '#000';
+    target.fillStyle = GROUND;
     target.fill();
     target.lineWidth = 1;
     target.strokeStyle = 'rgba(' + ICE + ', ' + alpha + ')';

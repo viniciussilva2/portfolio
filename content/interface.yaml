@@ -92,6 +92,10 @@ spec_base:
   en: Based in
   es: Base
 spec_stack: Stack
+stat_organizations:
+  pt: Organizações
+  en: Organizations
+  es: Organizaciones
 
 # Títulos das seções
 title_about:
@@ -142,6 +146,10 @@ repo_new_tab:
   es: (abre el repositorio en una pestaña nueva)
 
 # Contato
+contact_title: # CONFIRMAR: chamada escrita por mim para o fechamento da página
+  pt: Vamos conversar?
+  en: Let's talk.
+  es: ¿Hablamos?
 contact_lead:
   pt: Para vagas, projetos ou dúvidas técnicas, use um dos canais abaixo.
   en: For job openings, projects or technical questions, use one of the channels below.
@@ -162,6 +170,14 @@ not_found_home:
   es: Ir al inicio
 
 # Rodapé
+footer_nav:
+  pt: Navegação
+  en: Navigation
+  es: Navegación
+footer_social:
+  pt: Redes
+  en: Elsewhere
+  es: Redes
 footer_made:
   pt: Site feito em Django.
   en: Site built with Django.

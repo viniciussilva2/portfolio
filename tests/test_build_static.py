@@ -52,7 +52,7 @@ def test_static_files_land_next_to_the_pages(site):
     """The pages ask for /static/..., so that is where the files have to be."""
     assert (site / "static/portfolio/css/base.css").exists()
     assert (site / "static/portfolio/js/menu.js").exists()
-    assert (site / "static/portfolio/fonts/michroma-latin-400-normal.woff2").exists()
+    assert (site / "static/portfolio/fonts/outfit-latin-wght-normal.woff2").exists()
     assert (site / "static/portfolio/img/vinicius.jpg").exists()
 
 

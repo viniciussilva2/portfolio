@@ -1,33 +1,30 @@
-<section id="experiencia" class="block" data-stop data-section>
-  <div class="block__head">
-    <span class="node" aria-hidden="true"></span>
-    <h2 class="block__title" data-decode>{{ ui.title_experience }}</h2>
-  </div>
+<section id="experiencia" class="section" data-section>
+  <header class="head" data-reveal>
+    <span class="head__kicker" aria-hidden="true"></span>
+    <h2 class="head__title">{{ ui.title_experience }}</h2>
+  </header>
   <ol class="jobs">
     {% for job in content.experiences %}
-    <li class="job{% if job.is_current %} job--current{% endif %}" data-stop>
-      <span class="node" aria-hidden="true"></span>
-      <div class="job__when" data-part>
+    <li class="job{% if job.is_current %} job--current{% endif %}" data-reveal>
+      <div class="job__when">
         <p class="job__period">{{ job.period }}</p>
         <p class="job__duration">{{ job.duration }}</p>
         {% include "portfolio/_logo.html" with item=job %}
       </div>
       <div class="job__what">
-        <h3 class="job__role" data-part>{{ job.role }}</h3>
-        <div data-part>
-          <p class="job__company">{{ job.company }}</p>
-          <p class="job__place">{{ job.location }}</p>
-        </div>
-        <p class="job__summary" data-part>{{ job.summary }}</p>
+        <h3 class="job__role">{{ job.role }}</h3>
+        <p class="job__company">{{ job.company }}</p>
+        <p class="job__place">{{ job.location }}</p>
+        <p class="job__summary">{{ job.summary }}</p>
         {% if job.highlights %}
-        <ul class="job__highlights" data-part>
+        <ul class="job__highlights">
           {% for highlight in job.highlights %}<li>{{ highlight }}</li>
           {% endfor %}
         </ul>
         {% endif %}
         {% if job.stack %}
         <ul class="tokens" aria-label="{{ ui.stack_label }}">
-          {% for item in job.stack %}<li class="token" data-led>{{ item }}</li>{% endfor %}
+          {% for item in job.stack %}<li class="token">{{ item }}</li>{% endfor %}
         </ul>
         {% endif %}
       </div>

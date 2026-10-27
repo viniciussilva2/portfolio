@@ -7,11 +7,11 @@
   <meta http-equiv="Content-Security-Policy" content="{{ csp }}">
   <title>{% block title %}{{ profile.name }} | {{ profile.role }}{% endblock %}</title>
   <meta name="description" content="{% block description %}{{ profile.tagline }}{% endblock %}">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#05080f">
   {% block seo %}{% endblock %}
   <link rel="icon" href="{% static 'portfolio/img/favicon.svg' %}" type="image/svg+xml">
-  <link rel="preload" href="{% static 'portfolio/fonts/michroma-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="{% static 'portfolio/fonts/ibm-plex-sans-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'portfolio/fonts/outfit-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'portfolio/fonts/inter-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% static 'portfolio/css/tokens.css' %}">
   <link rel="stylesheet" href="{% static 'portfolio/css/base.css' %}">
   <link rel="stylesheet" href="{% static 'portfolio/css/sections.css' %}">
@@ -20,12 +20,10 @@
 <body>
   <a class="skip-link" href="#conteudo">{{ ui.skip_link }}</a>
   {% block body %}{% endblock %}
-  {# Everything here animates the schematic; a page without one leaves it out. #}
+  {# Reveal on scroll, the circuit, the menu and the pointer light; a page with nothing to animate leaves them out. #}
   {% block scripts %}
-  <script src="{% static 'portfolio/vendor/gsap/gsap.min.js' %}" defer></script>
+  <script src="{% static 'portfolio/js/reveal.js' %}" defer></script>
   <script src="{% static 'portfolio/js/traces.js' %}" defer></script>
-  <script src="{% static 'portfolio/js/signal.js' %}" defer></script>
-  <script src="{% static 'portfolio/js/motion.js' %}" defer></script>
   <script src="{% static 'portfolio/js/menu.js' %}" defer></script>
   <script src="{% static 'portfolio/js/pointer.js' %}" defer></script>
   {% endblock %}

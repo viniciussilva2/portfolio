@@ -1,48 +1,63 @@
-<section id="projetos" class="block" data-stop data-section>
-  <div class="block__head">
-    <span class="node" aria-hidden="true"></span>
-    <h2 class="block__title" data-decode>{{ ui.title_projects }}</h2>
-  </div>
+<section id="projetos" class="section" data-section>
+  <header class="head" data-reveal>
+    <span class="head__kicker" aria-hidden="true"></span>
+    <h2 class="head__title">{{ ui.title_projects }}</h2>
+  </header>
 
   {% if content.professional_projects %}
-  <h3 class="block__subtitle" data-part>{{ ui.projects_work }}</h3>
-  <ul class="entries entries--spaced">
+  <h3 class="subhead" data-reveal>{{ ui.projects_work }}</h3>
+  {% with total=content.professional_projects|length|stringformat:"02d" %}
+  <ol class="showcase">
     {% for project in content.professional_projects %}
-    <li class="entry" data-stop>
-      <span class="node" aria-hidden="true"></span>
-      <h4 class="entry__title" data-part>{{ project.title }}</h4>
-      {% if project.context %}<p class="entry__context" data-part>{{ project.context }}</p>{% endif %}
-      <p class="entry__text" data-part>{{ project.description }}</p>
-      {% if project.stack %}
-      <ul class="tokens" aria-label="{{ ui.stack_label }}">
-        {% for item in project.stack %}<li class="token" data-led>{{ item }}</li>{% endfor %}
-      </ul>
-      {% endif %}
-    </li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-
-  {% if content.github_projects %}
-  <div class="repos-group" data-stop>
-    <span class="node" aria-hidden="true"></span>
-    <h3 class="block__subtitle" data-part>{{ ui.projects_github }}</h3>
-    <ul class="repos">
-      {% for project in content.github_projects %}
-      <li data-part>
-        <a class="repo panel" href="{{ project.url }}" target="_blank" rel="noopener" data-tilt>
-          <h4 class="repo__name">{{ project.title }}</h4>
-          <p class="repo__text">{{ project.description }}</p>
+    <li class="showcase__item">
+      <article class="showcase__card">
+        <div class="showcase__info">
+          <p class="showcase__index" aria-hidden="true">{{ forloop.counter|stringformat:"02d" }} / {{ total }}</p>
+          <h4 class="showcase__title">{{ project.title }}</h4>
+          {% if project.context %}<p class="showcase__context">{{ project.context }}</p>{% endif %}
+          <p class="showcase__text">{{ project.description }}</p>
+        </div>
+        <div class="showcase__visual">
+          <span class="showcase__number" aria-hidden="true">{{ forloop.counter|stringformat:"02d" }}</span>
           {% if project.stack %}
+          <p class="showcase__label" aria-hidden="true">{{ ui.spec_stack }}</p>
           <ul class="tokens" aria-label="{{ ui.stack_label }}">
             {% for item in project.stack %}<li class="token">{{ item }}</li>{% endfor %}
           </ul>
           {% endif %}
-          <span class="visually-hidden">{{ ui.repo_new_tab }}</span>
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
+        </div>
+      </article>
+    </li>
+    {% endfor %}
+  </ol>
+  {% endwith %}
+  {% endif %}
+
+  {% if content.github_projects %}
+  <h3 class="subhead" data-reveal>{{ ui.projects_github }}</h3>
+  <ul class="repos">
+    {% for project in content.github_projects %}
+    <li data-reveal>
+      <a class="repo card" href="{{ project.url }}" target="_blank" rel="noopener" data-glow>
+        <span class="repo__top" aria-hidden="true">
+          <span class="repo__icon">
+            <svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3"/></svg>
+          </span>
+          <span class="repo__arrow">
+            <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </span>
+        </span>
+        <h4 class="repo__name">{{ project.title }}</h4>
+        <p class="repo__text">{{ project.description }}</p>
+        {% if project.stack %}
+        <ul class="tokens" aria-label="{{ ui.stack_label }}">
+          {% for item in project.stack %}<li class="token">{{ item }}</li>{% endfor %}
+        </ul>
+        {% endif %}
+        <span class="visually-hidden">{{ ui.repo_new_tab }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
   {% endif %}
 </section>

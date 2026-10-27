@@ -14,43 +14,43 @@
 {% endblock %}
 
 {% block body %}
-<div class="spotlight" aria-hidden="true"></div>
-
-<header class="topbar">
-  <a class="topbar__mark" href="#inicio" aria-label="{{ profile.name }}, {{ ui.mark_label }}">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>
-  </a>
-  <div class="topbar__right">
-    <nav class="topbar__nav" id="menu" aria-label="{{ ui.nav_label }}">
+<header class="nav">
+  <div class="nav__pill">
+    {% with parts=profile.name.split %}
+    <a class="nav__brand" href="#inicio" aria-label="{{ profile.name }}, {{ ui.mark_label }}">
+      <span class="nav__brand-icon" aria-hidden="true">{{ parts.0|first }}{{ parts|last|first }}</span>
+      <span class="nav__brand-name" aria-hidden="true">{{ profile.name }}</span>
+    </a>
+    {% endwith %}
+    <nav class="nav__links" id="menu" aria-label="{{ ui.nav_label }}">
       <a href="#sobre" data-nav>{{ ui.nav_about }}</a>
       <a href="#experiencia" data-nav>{{ ui.nav_experience }}</a>
       <a href="#habilidades" data-nav>{{ ui.nav_skills }}</a>
       {% if content.ai %}<a href="#ia" data-nav>{{ ui.nav_ai }}</a>{% endif %}
       <a href="#projetos" data-nav>{{ ui.nav_projects }}</a>
-      <a href="#contato" data-nav>{{ ui.nav_contact }}</a>
     </nav>
-    <ul class="languages" aria-label="{{ ui.language_label }}">
-      {% for language in languages %}
-      <li>
-        <a class="languages__option" href="{{ language.path }}" hreflang="{{ language.code }}" lang="{{ language.code }}" title="{{ language.name }}"{% if language.current %} aria-current="true"{% endif %}>
-          {% include "portfolio/flags/"|add:language.key|add:".svg" %}
-          <span class="visually-hidden">{{ language.name }}</span>
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-    <button class="topbar__toggle" type="button" aria-controls="menu" aria-expanded="false" data-menu-toggle>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      <span class="visually-hidden">{{ ui.menu_toggle }}</span>
-    </button>
+    <div class="nav__actions">
+      <ul class="languages" aria-label="{{ ui.language_label }}">
+        {% for language in languages %}
+        <li>
+          <a class="languages__option" href="{{ language.path }}" hreflang="{{ language.code }}" lang="{{ language.code }}" title="{{ language.name }}"{% if language.current %} aria-current="true"{% endif %}>
+            {% include "portfolio/flags/"|add:language.key|add:".svg" %}
+            <span class="visually-hidden">{{ language.name }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      <a class="button button--primary nav__cta" href="#contato">{{ ui.hero_contact }}</a>
+      <button class="nav__toggle" type="button" aria-controls="menu" aria-expanded="false" data-menu-toggle>
+        <svg class="nav__toggle-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="nav__toggle-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        <span class="visually-hidden">{{ ui.menu_toggle }}</span>
+      </button>
+    </div>
   </div>
 </header>
 
-<main id="conteudo" class="schematic" data-schematic>
-  <div class="bus" aria-hidden="true">
-    <div class="bus__signal"></div>
-    <div class="bus__head"></div>
-  </div>
+<main id="conteudo">
   {% include "portfolio/sections/_hero.html" %}
   {% include "portfolio/sections/_about.html" %}
   {% include "portfolio/sections/_experience.html" %}
@@ -61,8 +61,37 @@
   {% include "portfolio/sections/_contact.html" %}
 </main>
 
+{% with links=profile.links %}
 <footer class="footer">
-  <p>© {% now "Y" %} {{ profile.name }}. {{ ui.footer_made }}</p>
-  <a href="#inicio">{{ ui.footer_top }}</a>
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <p class="footer__logo">{{ profile.name }}</p>
+        <p class="footer__tagline">{{ profile.tagline }}</p>
+        {% if links.email %}<a class="footer__email" href="mailto:{{ links.email }}">{{ links.email }}</a>{% endif %}
+      </div>
+      <nav class="footer__col" aria-label="{{ ui.footer_nav }}">
+        <p class="footer__title">{{ ui.footer_nav }}</p>
+        <a href="#sobre">{{ ui.nav_about }}</a>
+        <a href="#experiencia">{{ ui.nav_experience }}</a>
+        <a href="#habilidades">{{ ui.nav_skills }}</a>
+        {% if content.ai %}<a href="#ia">{{ ui.nav_ai }}</a>{% endif %}
+        <a href="#projetos">{{ ui.nav_projects }}</a>
+        <a href="#contato">{{ ui.nav_contact }}</a>
+      </nav>
+      <div class="footer__col">
+        <p class="footer__title">{{ ui.footer_social }}</p>
+        <a href="{{ links.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="{{ links.github }}" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="footer__bottom" data-page-end>
+      <p>© {% now "Y" %} {{ profile.name }}. {{ ui.footer_made }}</p>
+      <a href="#inicio">{{ ui.footer_top }} ↑</a>
+    </div>
+  </div>
 </footer>
+{% endwith %}
+
+<div class="page-fade" aria-hidden="true" data-page-fade></div>
 {% endblock %}

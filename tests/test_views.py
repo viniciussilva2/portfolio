@@ -204,9 +204,10 @@ def test_unknown_page_returns_404(client):
 
 
 def test_not_found_page_is_plain(client):
-    """Nothing on it animates, so it loads none of the schematic scripts."""
+    """Nothing on it is revealed on scroll or lit by the pointer, so it loads no script."""
     html = client.get("/404.html").content.decode()
 
     assert '<meta name="robots" content="noindex">' in html
-    assert "gsap" not in html
+    assert "reveal.js" not in html
     assert "traces.js" not in html
+    assert "pointer.js" not in html

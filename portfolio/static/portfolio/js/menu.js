@@ -1,5 +1,6 @@
-/* Section menu on small screens: collapsed behind a button. Without this
-   script the button is not shown and the menu falls back to a single link. */
+/* Section menu on small screens: folded into a panel under the navigation
+   pill, opened by a button. Without this script the button is not shown and
+   the call-to-action stays as the one way to the contact section. */
 (function () {
   'use strict';
   const toggle = document.querySelector('[data-menu-toggle]');
@@ -16,7 +17,7 @@
     if (event.target.closest('a')) setOpen(false);
   });
   document.addEventListener('click', (event) => {
-    if (!event.target.closest('.topbar__right')) setOpen(false);
+    if (!event.target.closest('.nav')) setOpen(false);
   });
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape' || !menu.classList.contains('is-open')) return;
